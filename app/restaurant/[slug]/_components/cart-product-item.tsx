@@ -1,0 +1,47 @@
+import Image from "next/image";
+import { CartContext, type CartProduct } from "../../../contexts/cart";
+import { Button } from "@/app/_components/ui/button";
+import { ChevronLeftIcon, ChevronRightIcon, Trash } from "lucide-react";
+import { formatCurrency } from "@/helpers/format-currency";
+import CartButton from "./cart-button";
+import { useContext } from "react";
+
+interface CartItemProps {
+  product: CartProduct;
+}
+
+const CartProductItem = ({ product }: CartItemProps) => {
+  const { removeProduct } = useContext(CartContext);
+  return (
+    <div className="mt-6 flex items-center justify-between gap-4">
+      <div className="relative h-[77px] w-[77px] rounded-lg bg-[#EBEBEB]">
+        <Image
+          src={product.imageUrl}
+          alt={product.name}
+          fill
+          className="rounded-lg object-cover"
+        />
+      </div>
+      <div className="flex flex-1 items-center justify-between">
+        <div className="space-y-1">
+          <h3 className="max-w-[90%] truncate text-ellipsis text-xs font-medium">
+            {product.name}
+          </h3>
+          <p className="text-sm font-bold">{formatCurrency(product.price)}</p>
+          <CartButton quantity={product.quantity} product={product} />
+        </div>
+        <div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => removeProduct(product.id)}
+          >
+            <Trash />
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default CartProductItem;
