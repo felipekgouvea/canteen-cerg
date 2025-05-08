@@ -8,18 +8,18 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-  DrawerTrigger,
 } from "@/app/_components/ui/drawer";
 import { CartContext } from "@/app/contexts/cart";
 import { OrderStatus } from "@prisma/client";
 import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";
+import { toast } from "sonner";
 
 const FinishOrderButton = () => {
   const { data } = useSession();
-  const { total, clearCart, products } = useContext(CartContext);
+  const { total, clearCart, products, toggleCart } = useContext(CartContext);
   const router = useRouter();
 
   const [isSubmitLoading, setIsSubmitLoading] = useState(false);
@@ -50,10 +50,18 @@ const FinishOrderButton = () => {
         },
       });
       clearCart();
+      toast("Pedido finalizado com sucesso!", {
+        description: "Você pode acompanha-lo na tela dos seus pedidos.",
+        action: {
+          label: "Meus pedidos",
+          onClick: () => router.push("/my-orders"),
+        },
+      });
+
+      toggleCart();
     } catch (error) {
       console.log(error);
     } finally {
-      router.push("/my-orders");
       setIsSubmitLoading(false);
       setIsConfirmDraweOpen(false);
     }
