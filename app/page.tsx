@@ -1,9 +1,5 @@
-import Image from "next/image";
 import Header from "./_components/header";
 import Search from "./_components/search";
-import ProductList from "./_components/product-list";
-import { Button } from "@/app/_components/ui/button";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import BannerPromo from "./_components/banner-promo";
 import ProductsRecommended from "./_components/products-recommended";
 

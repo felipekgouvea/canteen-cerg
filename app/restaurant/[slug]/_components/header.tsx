@@ -2,10 +2,9 @@
 
 import { Button } from "@/app/_components/ui/button";
 import type { Restaurant } from "@prisma/client";
-import { ChevronLeftIcon, ScrollTextIcon } from "lucide-react";
+import { ChevronLeftIcon } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import logoAvatar from "@/public/logo-avatar.png";
 import MyOrdersButton from "@/app/_components/my-orders-button";
 
 interface RestaurantHeaderProps {

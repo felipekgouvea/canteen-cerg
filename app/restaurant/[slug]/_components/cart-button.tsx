@@ -1,6 +1,6 @@
 import { Button } from "@/app/_components/ui/button";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
-import { useContext, type ReactNode } from "react";
+import { useContext } from "react";
 import { CartContext, type CartProduct } from "../../../contexts/cart";
 
 interface CartButtonProps {

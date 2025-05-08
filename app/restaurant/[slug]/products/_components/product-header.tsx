@@ -3,9 +3,8 @@
 import MyOrdersButton from "@/app/_components/my-orders-button";
 import { Button } from "@/app/_components/ui/button";
 import type { Product } from "@prisma/client";
-import { ChevronLeftIcon, ScrollTextIcon } from "lucide-react";
+import { ChevronLeftIcon } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 interface ProductHeaderProps {

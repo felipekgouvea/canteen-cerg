@@ -1,5 +1,4 @@
 import ProductItem from "./product-item";
-import { getOrderProduct } from "../_actions/get-order-product";
 import { db } from "@/lib/prisma";
 import Link from "next/link";
 
@@ -17,8 +16,11 @@ const ProductList = async () => {
   return (
     <div className="flex gap-4">
       {products.map((product) => (
-        <Link href={`restaurant/canteen-cerg/products/${product.id}`}>
-          <ProductItem key={product.id} product={product} />
+        <Link
+          key={product.id}
+          href={`restaurant/canteen-cerg/products/${product.id}`}
+        >
+          <ProductItem product={product} />
         </Link>
       ))}
     </div>

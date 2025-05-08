@@ -2,7 +2,7 @@
 
 import { Button } from "@/app/_components/ui/button";
 import { ScrollArea, ScrollBar } from "@/app/_components/ui/scroll-area";
-import type { MenuCategory, Prisma } from "@prisma/client";
+import type { Prisma } from "@prisma/client";
 import { ClockIcon } from "lucide-react";
 import Image from "next/image";
 import { useContext, useState } from "react";
@@ -36,11 +36,7 @@ const RestaurantCategories = ({ restaurant }: RestaurantCategoriesProps) => {
     return selectedCategory.id === category.id ? "default" : "secondary";
   };
 
-  const [restaurantIsOpen, setRestaurantIsOpen] = useState(true);
-
-  const handleRestaurantIsOpen = () => {
-    !setRestaurantIsOpen;
-  };
+  const [restaurantIsOpen] = useState(true);
 
   const { products } = useContext(CartContext);
 

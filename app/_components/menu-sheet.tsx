@@ -4,7 +4,6 @@ import { Button } from "@/app/_components/ui/button";
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -13,17 +12,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import {
   HeartIcon,
-  HomeIcon,
   LogInIcon,
   LogOutIcon,
   MenuIcon,
   ScrollTextIcon,
-  SignalIcon,
   SquareMenuIcon,
 } from "lucide-react";
 import { signIn, signOut, useSession } from "next-auth/react";
-import Image from "next/image";
-import Link from "next/link";
 import ButtonMenu from "./button-menu";
 
 const MenuSheet = () => {
