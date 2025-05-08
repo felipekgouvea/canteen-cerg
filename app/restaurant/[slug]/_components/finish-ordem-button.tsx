@@ -71,7 +71,7 @@ const FinishOrderButton = () => {
     <>
       {products.length > 0 && (
         <Button
-          className="rounded-full"
+          className="mb-4 w-full rounded-full"
           onClick={() => setIsConfirmDraweOpen(true)}
         >
           Finalizar Pedido

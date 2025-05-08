@@ -13,7 +13,7 @@ interface CartItemProps {
 const CartProductItem = ({ product }: CartItemProps) => {
   const { removeProduct } = useContext(CartContext);
   return (
-    <div className="mt-6 flex items-center justify-between gap-4">
+    <div className="mt-6 flex w-full items-center justify-between gap-2 overflow-hidden">
       <div className="relative min-h-[77px] min-w-[77px] rounded-lg bg-[#EBEBEB]">
         <Image
           src={product.imageUrl}
@@ -22,11 +22,9 @@ const CartProductItem = ({ product }: CartItemProps) => {
           className="rounded-lg object-cover"
         />
       </div>
-      <div className="flex flex-1 items-center justify-between">
+      <div className="flex w-full items-center justify-between">
         <div className="space-y-1">
-          <h3 className="max-w-[90%] truncate text-ellipsis text-xs font-medium">
-            {product.name}
-          </h3>
+          <h3 className="text-xs font-medium">{product.name}</h3>
           <p className="text-sm font-bold">{formatCurrency(product.price)}</p>
           <CartButton quantity={product.quantity} product={product} />
         </div>
