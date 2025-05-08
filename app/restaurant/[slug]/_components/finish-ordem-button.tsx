@@ -25,6 +25,28 @@ const FinishOrderButton = () => {
   const [isSubmitLoading, setIsSubmitLoading] = useState(false);
   const [isConfirmDrawerOpen, setIsConfirmDraweOpen] = useState(false);
 
+  const handleConfirmDraweOpen = () => {
+    setIsConfirmDraweOpen(true);
+  };
+
+  const handleUserNotLogin = () => {
+    try {
+      setIsSubmitLoading(true);
+      toast("Usuário não está logado no sistema!", {
+        description: "Você precisa fazer login para realizar um pedido.",
+        action: {
+          label: "Home Page",
+          onClick: () => router.push("/my-orders"),
+        },
+      });
+      toggleCart();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsSubmitLoading(false);
+    }
+  };
+
   const handleFinishOrder = async () => {
     if (!data?.user) return;
 
@@ -57,7 +79,6 @@ const FinishOrderButton = () => {
           onClick: () => router.push("/my-orders"),
         },
       });
-
       toggleCart();
     } catch (error) {
       console.log(error);
@@ -72,7 +93,7 @@ const FinishOrderButton = () => {
       {products.length > 0 && (
         <Button
           className="mb-4 w-full rounded-full"
-          onClick={() => setIsConfirmDraweOpen(true)}
+          onClick={data?.user ? handleConfirmDraweOpen : handleUserNotLogin}
         >
           Finalizar Pedido
         </Button>
