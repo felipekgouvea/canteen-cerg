@@ -14,7 +14,7 @@ const CartProductItem = ({ product }: CartItemProps) => {
   const { removeProduct } = useContext(CartContext);
   return (
     <div className="mt-6 flex items-center justify-between gap-4">
-      <div className="relative h-[77px] w-[77px] rounded-lg bg-[#EBEBEB]">
+      <div className="relative min-h-[77px] min-w-[77px] rounded-lg bg-[#EBEBEB]">
         <Image
           src={product.imageUrl}
           alt={product.name}
