@@ -28,7 +28,6 @@ const Search = () => {
     <form className="flex gap-4 px-5" onSubmit={handleSearchSubmit}>
       <Input
         placeholder="Buscar por um produto..."
-        className="border-none"
         onChange={handleChange}
         value={search}
       />
