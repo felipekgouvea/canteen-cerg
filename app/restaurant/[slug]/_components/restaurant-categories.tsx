@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/app/_components/ui/button";
-import { ScrollArea } from "@/app/_components/ui/scroll-area";
+// import { ScrollArea } from "@/app/_components/ui/scroll-area";
 import type { Prisma } from "@prisma/client";
 import { ClockIcon } from "lucide-react";
 import Image from "next/image";
@@ -63,21 +63,21 @@ const RestaurantCategories = ({ restaurant }: RestaurantCategoriesProps) => {
             <p>{restaurantIsOpen ? "Aberto" : "Fechado"}</p>
           </div>
         </div>
-        <ScrollArea className="scrollbar-none w-full overflow-auto">
-          <div className="flex w-max space-x-4 pt-0">
-            {restaurant.menuCategories.map((category) => (
-              <Button
-                key={category.id}
-                variant={getCategoryButtonVarient(category)}
-                size="sm"
-                className="rounded-full"
-                onClick={() => handleCategorieClick(category)}
-              >
-                {category.name}
-              </Button>
-            ))}
-          </div>
-        </ScrollArea>
+        {/* <ScrollArea className="scrollbar-none w-full overflow-auto"> */}
+        <div className="flex w-max space-x-4 pt-0">
+          {restaurant.menuCategories.map((category) => (
+            <Button
+              key={category.id}
+              variant={getCategoryButtonVarient(category)}
+              size="sm"
+              className="rounded-full"
+              onClick={() => handleCategorieClick(category)}
+            >
+              {category.name}
+            </Button>
+          ))}
+        </div>
+        {/* </ScrollArea> */}
       </div>
       <h3 className="pt-5 font-semibold">{selectedCategory.name}</h3>
       {restaurantIsOpen ? (
