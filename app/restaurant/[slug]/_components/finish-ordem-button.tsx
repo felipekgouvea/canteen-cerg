@@ -36,7 +36,7 @@ const FinishOrderButton = () => {
         description: "Você precisa fazer login para realizar um pedido.",
         action: {
           label: "Home Page",
-          onClick: () => router.push("/my-orders"),
+          onClick: () => router.push("/"),
         },
       });
       toggleCart();
