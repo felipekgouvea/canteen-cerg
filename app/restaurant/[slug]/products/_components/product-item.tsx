@@ -5,7 +5,7 @@ import Link from "next/link";
 
 interface ProductItemProps {
   product: Product;
-  slug: string;
+  slug?: string;
 }
 
 const ProductItem = ({ product, slug }: ProductItemProps) => {
