@@ -31,10 +31,8 @@ const Products = () => {
     <>
       <Header />
       <div className="px-5 py-6">
-        <h2 className="mb-6 text-lg font-semibold">
-          Produtos Encontrados para a busca -{" "}
-          <strong className="font-semibold">{searchFor}</strong>
-        </h2>
+        <h2 className="mb-6 text-lg font-semibold">Produtos Encontrados</h2>
+
         {products.length > 0 ? (
           <div className="flex w-full flex-col gap-6">
             {products.map((product) => (
@@ -43,8 +41,8 @@ const Products = () => {
           </div>
         ) : (
           <h3 className="text-center text-sm">
-            Nenhum produto encontrado para a busca -{" "}
-            <strong className="font-semibold">{searchFor}</strong>
+            Nenhum produto encontrado para a busca{" "}
+            <p className="mt-4 truncate font-semibold">{searchFor}</p>
           </h3>
         )}
       </div>
