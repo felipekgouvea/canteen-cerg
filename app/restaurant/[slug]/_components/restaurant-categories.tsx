@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/app/_components/ui/button";
-import { ScrollArea, ScrollBar } from "@/app/_components/ui/scroll-area";
+import { ScrollArea } from "@/app/_components/ui/scroll-area";
 import type { Prisma } from "@prisma/client";
 import { ClockIcon } from "lucide-react";
 import Image from "next/image";
@@ -77,7 +77,6 @@ const RestaurantCategories = ({ restaurant }: RestaurantCategoriesProps) => {
               </Button>
             ))}
           </div>
-          <ScrollBar orientation="horizontal" />
         </ScrollArea>
       </div>
       <h3 className="pt-5 font-semibold">{selectedCategory.name}</h3>
