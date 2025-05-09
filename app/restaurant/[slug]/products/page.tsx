@@ -39,8 +39,9 @@ const Products = () => {
             ))}
           </div>
         ) : (
-          <h1 className="text-center text-sm font-semibold">
-            Nenhum produto encontrado
+          <h1 className="text-center text-sm">
+            Nenhum produto encontrado para a busca -{" "}
+            <strong className="font-semibold">{searchFor}</strong>
           </h1>
         )}
       </div>
