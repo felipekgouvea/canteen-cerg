@@ -3,7 +3,7 @@ import { Button } from "./ui/button";
 import Link from "next/link";
 
 interface ButtonMenuProps {
-  title: string;
+  title?: string;
   icon: ReactNode;
   link: string;
 }

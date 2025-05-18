@@ -118,8 +118,13 @@ const FinishOrderDialog = ({ onOpenChange, open }: FinishOrderDialogProps) => {
       setIsSubmitLoading(true);
       await createOrder({
         total,
-        studentClass: formData.studentClass,
-        studentName: formData.studentName,
+        student: {
+          connect: {
+            id: "1bf67991-edd3-5824-85a8-748F54723788",
+            student: formData.studentName,
+            serie: formData.studentClass,
+          },
+        },
         status: OrderStatus.PENDING,
         restaurant: {
           connect: { id: "1bf67991-edd3-4624-9fa8-748c94723788" },
