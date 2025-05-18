@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/select";
 
 import { CartContext } from "@/app/contexts/cart";
-import { OrderStatus, StudentClass } from "@prisma/client";
+import { OrderStatus } from "@prisma/client";
 import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
