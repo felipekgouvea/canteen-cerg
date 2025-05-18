@@ -20,12 +20,15 @@ import {
 } from "lucide-react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import ButtonMenu from "./button-menu";
+import { useRouter } from "next/navigation";
 
 const MenuSheet = () => {
   const { data } = useSession();
+  const router = useRouter();
 
   const handleLogOut = () => {
     signOut();
+    router.push("/");
   };
 
   const handleLogIn = () => {

@@ -54,16 +54,18 @@ model Product {
 }
 
 model Order {
-  id            Int            @id @default(autoincrement())
-  total         Float
-  status        OrderStatus
-  userId        String
-  user          User           @relation(fields: [userId], references: [id])
-  restaurant    Restaurant     @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
-  restaurantId  String
-  products OrderProduct[]
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
+  id           Int            @id @default(autoincrement())
+  total        Float
+  status       OrderStatus
+  studentName  String
+  studentClass String
+  userId       String
+  user         User           @relation(fields: [userId], references: [id])
+  restaurant   Restaurant     @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  restaurantId String
+  products     OrderProduct[]
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
 }
 
 model OrderProduct {
@@ -78,12 +80,31 @@ model OrderProduct {
   updatedAt DateTime @updatedAt
 }
 
+model Student {
+  id        String   @id @default(uuid())
+  student   String
+  serie     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 enum OrderStatus {
   PENDING
   IN_PREPARATION
   PAYMENT_CONFIRMED
   PAYMENT_FAILED
   FINISHED
+}
+
+enum StudentClass {
+  MATERNAL
+  PRE_I
+  PRE_II
+  PRIMEIRO
+  SEGUNDO
+  TERCEIRO
+  QUARTO
+  QUINTO
 }
 
 model Account {

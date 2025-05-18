@@ -1,7 +1,7 @@
-import Header from "./_components/header";
-import Search from "./_components/search";
 import BannerPromo from "./_components/banner-promo";
+import Header from "./_components/header";
 import ProductsRecommended from "./_components/products-recommended";
+import Search from "./_components/search";
 
 const HomePage = () => {
   return (

@@ -1,0 +1,2 @@
+-- CreateEnum
+CREATE TYPE "StudentClass" AS ENUM ('MATERNAL', 'PRE_I', 'PRE_II', 'PRIMEIRO', 'SEGUNDO', 'TERCEIRO', 'QUARTO', 'QUINTO');
