@@ -16,9 +16,6 @@ const Dashboard = async () => {
     orderBy: {
       createdAt: "desc",
     },
-    include: {
-      student: true,
-    },
     take: 5,
   });
 
@@ -104,9 +101,9 @@ const Dashboard = async () => {
           item={latestOrders.map((order) => (
             <OrderItem
               key={order.id}
-              name={order.student.student}
-              serie={order.student.serie}
-              studentImageURL={order.student.studentImageUrl}
+              name={order.studentName}
+              serie={order.studentSerie}
+              studentImageURL={order.studentName}
             />
           ))}
         />
