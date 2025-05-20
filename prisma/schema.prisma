@@ -57,8 +57,8 @@ model Order {
   id           Int            @id @default(autoincrement())
   total        Float
   status       OrderStatus
-  studentName  String
-  studentSerie String
+  studentId    Int
+  student      Student        @relation(fields: [studentId], references: [id])
   userId       String
   user         User           @relation(fields: [userId], references: [id])
   restaurant   Restaurant     @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
@@ -81,12 +81,24 @@ model OrderProduct {
 }
 
 model Student {
-  id              String   @id @default(uuid())
-  student         String
-  serie           String
-  studentImageUrl String   @default("")
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  id       Int     @id @default(autoincrement())
+  name     String
+  imageURL String  @default("")
+  serieId  Int
+  orders   Order[]
+  serie    Serie   @relation(fields: [serieId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Serie {
+  id       Int       @id @default(autoincrement())
+  name     String
+  students Student[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 enum OrderStatus {
@@ -95,17 +107,6 @@ enum OrderStatus {
   PAYMENT_CONFIRMED
   PAYMENT_FAILED
   FINISHED
-}
-
-enum StudentClass {
-  MATERNAL
-  PRE_I
-  PRE_II
-  PRIMEIRO
-  SEGUNDO
-  TERCEIRO
-  QUARTO
-  QUINTO
 }
 
 model Account {

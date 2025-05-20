@@ -16,6 +16,13 @@ const Dashboard = async () => {
     orderBy: {
       createdAt: "desc",
     },
+    include: {
+      student: {
+        include: {
+          serie: true,
+        },
+      },
+    },
     take: 5,
   });
 
@@ -66,48 +73,51 @@ const Dashboard = async () => {
       <SideBar />
       <MenuSheetDashboard />
 
-      <section className="mt-4 grid grid-cols-2 gap-4 px-4 lg:grid-cols-3">
-        <CardDashboard
-          title="Total Pedidos (Mês)"
-          description="Total de pedidos no mês"
-          icon={<DollarSign className="ml-auto h-4 w-4" />}
-          content={totalOrdersThisMonth.toString()}
-        />
-        <CardDashboard
-          title="Valor dos Pedidos"
-          description="Valor dos pedidos do mês"
-          icon={<BadgeDollarSign className="ml-auto h-4 w-4" />}
-          content={`R$ ${totalAmountThisMonth._sum.total?.toFixed(2) ?? "0,00"}`}
-        />
-        <CardDashboard
-          title="Total Pedidos (Hoje)"
-          description="Total de pedidos hoje"
-          icon={<ShoppingBag className="ml-auto h-4 w-4" />}
-          content={totalSales.toString()}
-        />
-        <CardDashboard
-          title="Valor do Pedidos"
-          description="Valor em pedidos hoje"
-          icon={<DollarSign className="ml-auto h-4 w-4" />}
-          content={`R$ ${totalAmount._sum.total?.toFixed(2) ?? "0,00"}`}
-        />
-      </section>
+      <div className="grid lg:grid-cols-2">
+        <section className="mt-4 grid grid-cols-2 gap-4 px-4">
+          <CardDashboard
+            title="Total Pedidos (Mês)"
+            description="Total de pedidos no mês"
+            icon={<DollarSign className="ml-auto h-4 w-4" />}
+            content={totalOrdersThisMonth.toString()}
+          />
+          <CardDashboard
+            title="Valor dos Pedidos"
+            description="Valor dos pedidos do mês"
+            icon={<BadgeDollarSign className="ml-auto h-4 w-4" />}
+            content={`R$ ${totalAmountThisMonth._sum.total?.toFixed(2) ?? "0,00"}`}
+          />
+          <CardDashboard
+            title="Total Pedidos (Hoje)"
+            description="Total de pedidos hoje"
+            icon={<ShoppingBag className="ml-auto h-4 w-4" />}
+            content={totalSales.toString()}
+          />
+          <CardDashboard
+            title="Valor do Pedidos"
+            description="Valor em pedidos hoje"
+            icon={<DollarSign className="ml-auto h-4 w-4" />}
+            content={`R$ ${totalAmount._sum.total?.toFixed(2) ?? "0,00"}`}
+          />
+        </section>
 
-      <section className="mt-4 flex flex-col gap-4 px-4 md:flex-row">
-        <CardDashboard
-          title="Últimos pedidos"
-          description="Pedidos nas últimas 24 horas"
-          icon={<DollarSign className="ml-auto h-4 w-4" />}
-          item={latestOrders.map((order) => (
-            <OrderItem
-              key={order.id}
-              name={order.studentName}
-              serie={order.studentSerie}
-              studentImageURL={order.studentName}
-            />
-          ))}
-        />
-      </section>
+        <section className="mt-4 flex flex-col gap-4 px-4 md:flex-row">
+          <CardDashboard
+            title="Últimos pedidos"
+            description="Pedidos nas últimas 24 horas"
+            icon={<DollarSign className="ml-auto h-4 w-4" />}
+            item={latestOrders.map((order) => (
+              <OrderItem
+                key={order.id}
+                name={order.student.name}
+                serie={order.student.serie.name}
+                studentImageURL={order.student.imageURL}
+                dateOrder={order.createdAt}
+              />
+            ))}
+          />
+        </section>
+      </div>
     </main>
   );
 };

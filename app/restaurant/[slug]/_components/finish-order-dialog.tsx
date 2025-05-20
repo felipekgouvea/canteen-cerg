@@ -40,14 +40,7 @@ import { CLASS } from "./class-select";
 import { getStudentByClass } from "@/app/_actions/get-student-by-class";
 
 const formSchema = z.object({
-  studentName: z
-    .string({
-      message: "O nome do(a) aluno(a) é obrigatório!",
-    })
-    .trim()
-    .min(3, {
-      message: "O nome do(a) aluno(a) deve conter no minímo 3 letras!",
-    }),
+  studentId: z.string({ message: "O(a) aluno(a) é obrigatório(a)" }),
   studentClass: z.enum([
     "Selecione",
     "MATERNAL",
@@ -79,7 +72,7 @@ const FinishOrderDialog = ({ onOpenChange, open }: FinishOrderDialogProps) => {
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      studentName: "",
+      studentId: "",
       studentClass: "Selecione",
     },
     shouldUnregister: true,
@@ -118,8 +111,9 @@ const FinishOrderDialog = ({ onOpenChange, open }: FinishOrderDialogProps) => {
       setIsSubmitLoading(true);
       await createOrder({
         total,
-        studentName: formData.studentName,
-        studentSerie: formData.studentClass,
+        student: {
+          connect: { id: parseInt(formData.studentId) },
+        },
         status: OrderStatus.PENDING,
         restaurant: {
           connect: { id: "1bf67991-edd3-4624-9fa8-748c94723788" },
@@ -201,7 +195,7 @@ const FinishOrderDialog = ({ onOpenChange, open }: FinishOrderDialogProps) => {
               {students.length > 0 && (
                 <FormField
                   control={form.control}
-                  name="studentName"
+                  name="studentId"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-sm font-light">
@@ -221,7 +215,7 @@ const FinishOrderDialog = ({ onOpenChange, open }: FinishOrderDialogProps) => {
                             <SelectItem
                               className="flex w-full gap-5"
                               key={option.id}
-                              value={option.student}
+                              value={option.id}
                             >
                               {option.student}
                             </SelectItem>
