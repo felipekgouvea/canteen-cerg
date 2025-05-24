@@ -23,7 +23,7 @@ const ProductItem = ({ product, slug }: ProductItemProps) => {
           {formatCurrency(product.price)}
         </p>
       </div>
-      <div className="relative min-h-[82px] min-w-[120px]">
+      <div className="relative min-h-[82px] w-[120px] min-w-[120px]">
         <Image
           src={product.imageUrl}
           alt={product.name}
