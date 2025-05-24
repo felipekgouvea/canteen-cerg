@@ -11,7 +11,6 @@ import logoAvatar from "@/public/logo-avatar.png";
 import Products from "@/app/restaurant/[slug]/products/_components/products";
 import CartBanner from "./cart-banner";
 import { CartContext } from "@/app/contexts/cart";
-import { ScrollArea } from "@/app/_components/ui/scroll-area";
 
 interface RestaurantCategoriesProps {
   restaurant: Prisma.RestaurantGetPayload<{
@@ -64,7 +63,7 @@ const RestaurantCategories = ({ restaurant }: RestaurantCategoriesProps) => {
             <p>{restaurantIsOpen ? "Aberto" : "Fechado"}</p>
           </div>
         </div>
-        <ScrollArea className="scrollbar-none w-full overflow-auto">
+        <div className="overflow-x-auto [&::-webkit-scrollbar]:hidden [&::-webkit-scrollbar]:w-0">
           <div className="flex w-max space-x-4 pt-0">
             {restaurant.menuCategories.map((category) => (
               <Button
@@ -78,7 +77,7 @@ const RestaurantCategories = ({ restaurant }: RestaurantCategoriesProps) => {
               </Button>
             ))}
           </div>
-        </ScrollArea>
+        </div>
       </div>
       <h3 className="pt-5 font-semibold">{selectedCategory.name}</h3>
       {restaurantIsOpen ? (
