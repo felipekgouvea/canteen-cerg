@@ -24,7 +24,8 @@ const HomePage = () => {
 
       <div className="mx-5 flex items-center justify-between">
         <h2 className="text-lg font-semibold">
-          Olá {getFirstName(data?.user.name as string)}!
+          Olá{" "}
+          {data?.user ? getFirstName(data?.user.name as string) : "Visitante"}!
         </h2>
         <p className="text-sm font-semibold">{formatDateBR(dataAtual)}</p>
       </div>
