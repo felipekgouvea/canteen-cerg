@@ -2,6 +2,9 @@
 
 import { useSession } from "next-auth/react";
 
+import { getFirstName } from "@/helpers/firts-name";
+import { formatDateBR } from "@/helpers/format-date-br";
+
 import BannerPromo from "./_components/banner-promo";
 import Footer from "./_components/footer";
 import Header from "./_components/header";
@@ -13,10 +16,19 @@ import Search from "./_components/search";
 const HomePage = () => {
   const { data } = useSession();
   const userId = data?.user?.id;
+  const dataAtual = new Date();
 
   return (
     <div className="h-screen space-y-8">
       <Header />
+
+      <div className="mx-5 flex items-center justify-between">
+        <h2 className="text-lg font-semibold">
+          Olá {getFirstName(data?.user.name as string)}!
+        </h2>
+        <p className="text-sm font-semibold">{formatDateBR(dataAtual)}</p>
+      </div>
+
       <Search />
 
       <div className="mx-5">
