@@ -1,5 +1,16 @@
 "use client";
 
+import {
+  HeartIcon,
+  LogInIcon,
+  LogOutIcon,
+  MenuIcon,
+  ScrollTextIcon,
+  SquareMenuIcon,
+} from "lucide-react";
+import { useRouter } from "next/navigation";
+import { signIn, signOut, useSession } from "next-auth/react";
+
 import { Button } from "@/app/_components/ui/button";
 import {
   Sheet,
@@ -10,17 +21,8 @@ import {
 } from "@/app/_components/ui/sheet";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
-import {
-  HeartIcon,
-  LogInIcon,
-  LogOutIcon,
-  MenuIcon,
-  ScrollTextIcon,
-  SquareMenuIcon,
-} from "lucide-react";
-import { signIn, signOut, useSession } from "next-auth/react";
+
 import ButtonMenu from "./button-menu";
-import { useRouter } from "next/navigation";
 
 const MenuSheet = () => {
   const { data } = useSession();

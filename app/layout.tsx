@@ -1,9 +1,11 @@
 import "./globals.css";
-import { Poppins } from "next/font/google";
+
 import type { Metadata } from "next";
-import { CartProvider } from "./contexts/cart";
-import AuthProvider from "./_providers/auth";
+import { Poppins } from "next/font/google";
 import { Toaster } from "sonner";
+
+import AuthProvider from "./_providers/auth";
+import { CartProvider } from "./contexts/cart";
 
 const poppins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],

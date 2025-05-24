@@ -1,6 +1,7 @@
 import { Product } from "@prisma/client";
-import ProductItem from "./product-item";
 import Link from "next/link";
+
+import ProductItem from "./product-item";
 
 interface ProductListProps{
   products: Product[]

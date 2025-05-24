@@ -1,15 +1,28 @@
-import { Button } from "./ui/button";
+"use client";
+
+import type { Product } from "@prisma/client";
 import { ChevronRight } from "lucide-react";
+import { useEffect, useState } from "react";
+
+import { getCheaperProducts } from "../_actions/get-cheaper-products";
 import ProductList from "./product-list";
-import { getTop10MostOrderedProductsByUser } from "../_actions/get-Top10-Most-Ordered-Products-By-User";
+import { Button } from "./ui/button";
 
 interface ProductsMoreOrdersProps {
   title: string;
 }
 
-const ProductsMoreOrders = async ({title}:ProductsMoreOrdersProps) => {
+const ProductsMoreOrders = ({ title }: ProductsMoreOrdersProps) => {
+  const [products, setProducts] = useState<Product[]>([]);
 
-    const products = await getTop10MostOrderedProductsByUser('cma1k0prw0000hf2wo7o0m8cc')
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await getCheaperProducts();
+      setProducts(result);
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -21,11 +34,10 @@ const ProductsMoreOrders = async ({title}:ProductsMoreOrdersProps) => {
         </Button>
       </div>
       <div className="overflow-x-auto [&::-webkit-scrollbar]:hidden [&::-webkit-scrollbar]:w-0">
-        <ProductList products={products}/>
+        <ProductList products={products} />
       </div>
     </>
   );
 };
 
- 
 export default ProductsMoreOrders;

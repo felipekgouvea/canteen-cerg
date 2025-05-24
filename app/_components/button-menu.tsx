@@ -1,6 +1,7 @@
-import type { ReactNode } from "react";
-import { Button } from "./ui/button";
 import Link from "next/link";
+import type { ReactNode } from "react";
+
+import { Button } from "./ui/button";
 
 interface ButtonMenuProps {
   title?: string;

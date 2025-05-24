@@ -1,6 +1,7 @@
-import { formatCurrency } from "@/helpers/format-currency";
 import type { Product } from "@prisma/client";
 import Image from "next/image";
+
+import { formatCurrency } from "@/helpers/format-currency";
 
 interface ProductOrderProps {
   product: Product;

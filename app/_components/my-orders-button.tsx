@@ -1,6 +1,7 @@
 import { ScrollTextIcon } from "lucide-react";
-import { Button } from "./ui/button";
 import Link from "next/link";
+
+import { Button } from "./ui/button";
 
 const MyOrdersButton = () => {
   return (

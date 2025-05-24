@@ -1,8 +1,11 @@
-import { db } from "@/lib/prisma";
+"use server";
+
 import type { Product } from "@prisma/client";
 
+import { db } from "@/lib/prisma";
+
 export async function getTop10MostOrderedProductsByUser(
-  userId: string
+  userId: string,
 ): Promise<Product[]> {
   const result = await db.orderProduct.groupBy({
     by: ["productId"],
@@ -33,6 +36,6 @@ export async function getTop10MostOrderedProductsByUser(
   });
 
   // Garantir a ordem correta (porque `findMany` pode vir fora de ordem)
-  const productMap = new Map(products.map(p => [p.id, p]));
-  return productIds.map(id => productMap.get(id)!);
+  const productMap = new Map(products.map((p) => [p.id, p]));
+  return productIds.map((id) => productMap.get(id)!);
 }
