@@ -3,13 +3,11 @@ import Link from "next/link";
 
 import ProductItem from "./product-item";
 
-interface ProductListProps{
-  products: Product[]
+interface ProductListProps {
+  products: Product[];
 }
 
-
-const ProductList = ({products}:ProductListProps) => {
-  
+const ProductList = ({ products }: ProductListProps) => {
   return (
     <div className="flex gap-4">
       {products.map((product) => (
@@ -17,7 +15,10 @@ const ProductList = ({products}:ProductListProps) => {
           key={product.id}
           href={`restaurant/canteen-cerg/products/${product.id}`}
         >
-          <ProductItem product={product} />
+          <ProductItem
+            product={product}
+            className="w-[150px] min-w-[150px] space-y-2"
+          />
         </Link>
       ))}
     </div>

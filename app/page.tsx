@@ -1,7 +1,3 @@
-"use client";
-
-import { useSession } from "next-auth/react";
-
 import { getFirstName } from "@/helpers/firts-name";
 import { formatDateBR } from "@/helpers/format-date-br";
 
@@ -12,10 +8,13 @@ import ProductsCheapGood from "./_components/products-cheap-good";
 import ProductsHome from "./_components/products-home";
 import ProductsMoreOrders from "./_components/products-more-orders";
 import Search from "./_components/search";
+import { authOptions } from "@/lib/auth";
+import { getServerSession } from "next-auth";
 
-const HomePage = () => {
-  const { data } = useSession();
-  const userId = data?.user?.id;
+const HomePage = async () => {
+  const session = await getServerSession(authOptions);
+
+  const userId = session?.user.id;
   const dataAtual = new Date();
 
   return (
@@ -25,7 +24,10 @@ const HomePage = () => {
       <div className="mx-5 flex items-center justify-between">
         <h2 className="text-lg font-semibold">
           Olá{" "}
-          {data?.user ? getFirstName(data?.user.name as string) : "Visitante"}!
+          {session?.user
+            ? getFirstName(session?.user.name as string)
+            : "Visitante"}
+          !
         </h2>
         <p className="text-sm font-semibold">{formatDateBR(dataAtual)}</p>
       </div>

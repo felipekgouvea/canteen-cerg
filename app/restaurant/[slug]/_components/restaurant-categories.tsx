@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/app/_components/ui/button";
-// import { ScrollArea } from "@/app/_components/ui/scroll-area";
 import type { Prisma } from "@prisma/client";
 import { ClockIcon } from "lucide-react";
 import Image from "next/image";

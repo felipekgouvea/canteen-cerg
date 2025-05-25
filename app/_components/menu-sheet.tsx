@@ -107,8 +107,8 @@ const MenuSheet = () => {
                       />
                       <ButtonMenu
                         icon={<HeartIcon size={16} />}
-                        title="Lanches Favoritos"
-                        link=""
+                        title="Produtos Favoritos"
+                        link="/my-favorite-products"
                       />
                     </div>
                   )}
