@@ -33,7 +33,6 @@ const MyFavoritePage = async () => {
                 key={product.id}
                 product={product}
                 className="min-w-full max-w-full"
-                userFavoriteProducts={userFavoriteProducts}
               />
             ))
           ) : (

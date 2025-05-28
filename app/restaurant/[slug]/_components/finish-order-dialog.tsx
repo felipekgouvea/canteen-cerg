@@ -1,7 +1,7 @@
 "use client";
 
-import { createOrder } from "@/app/_actions/order";
 import { Button } from "@/app/_components/ui/button";
+import { loadStripe } from "@stripe/stripe-js";
 import {
   Drawer,
   DrawerClose,
@@ -19,13 +19,10 @@ import {
 } from "@/components/ui/select";
 
 import { CartContext } from "@/app/contexts/cart";
-import { OrderStatus } from "@prisma/client";
 import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -38,6 +35,8 @@ import {
 } from "@/app/_components/ui/form";
 import { CLASS } from "./class-select";
 import { getStudentByClass } from "@/app/_actions/get-student-by-class";
+import { createStripeCheckout } from "../products/actions/create-stripe-checkout";
+import { createOrder } from "@/app/_actions/create-order";
 
 const formSchema = z.object({
   studentId: z.string({ message: "O(a) aluno(a) é obrigatório(a)" }),
@@ -63,8 +62,7 @@ interface FinishOrderDialogProps {
 
 const FinishOrderDialog = ({ onOpenChange, open }: FinishOrderDialogProps) => {
   const { data } = useSession();
-  const { total, clearCart, products, toggleCart } = useContext(CartContext);
-  const router = useRouter();
+  const { products } = useContext(CartContext);
   const [students, setStudents] = useState<{ id: string; student: string }[]>(
     [],
   );
@@ -105,41 +103,27 @@ const FinishOrderDialog = ({ onOpenChange, open }: FinishOrderDialogProps) => {
   // };
 
   const handleFinishOrder = async (formData: FormSchema) => {
-    if (!data?.user) return;
-
+    if (!data?.user.id) return;
     try {
       setIsSubmitLoading(true);
-      await createOrder({
-        total,
-        student: {
-          connect: { id: parseInt(formData.studentId) },
-        },
-        status: OrderStatus.PENDING,
-        restaurant: {
-          connect: { id: "1bf67991-edd3-4624-9fa8-748c94723788" },
-        },
-        user: {
-          connect: { id: data?.user.id },
-        },
-        products: {
-          createMany: {
-            data: products.map((product) => ({
-              productId: product.id,
-              quantity: product.quantity,
-              price: product.price,
-            })),
-          },
-        },
+      const order = await createOrder({
+        products,
+        restaurantId: "1bf67991-edd3-4624-9fa8-748c94723788",
+        studentId: parseInt(formData.studentId),
+        userId: data.user.id,
       });
-      clearCart();
-      toast("Pedido finalizado com sucesso!", {
-        description: "Você pode acompanha-lo na tela dos seus pedidos.",
-        action: {
-          label: "Meus pedidos",
-          onClick: () => router.push("/my-orders"),
-        },
+
+      const { sessionId } = await createStripeCheckout({
+        products,
+        orderId: order.id,
       });
-      toggleCart();
+      if (!process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY) return;
+      const stripe = await loadStripe(
+        process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY,
+      );
+      stripe?.redirectToCheckout({
+        sessionId: sessionId,
+      });
     } catch (error) {
       console.log(error);
     } finally {
