@@ -3,6 +3,7 @@
 import Stripe from "stripe";
 
 import type { CartProduct } from "@/app/contexts/cart";
+import { db } from "@/lib/prisma";
 
 interface CreateStripeCheckoutInput {
   products: CartProduct[];
@@ -16,6 +17,13 @@ export const createStripeCheckout = async ({
   if (!process.env.STRIPE_SECRET_KEY) {
     throw new Error("Missing Stripe secret key");
   }
+  const productsWithPrices = await db.product.findMany({
+    where: {
+      id: {
+        in: products.map((product) => product.id),
+      },
+    },
+  });
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
     apiVersion: "2025-02-24.acacia",
   });
@@ -23,8 +31,8 @@ export const createStripeCheckout = async ({
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
     mode: "payment",
-    success_url: "http://localhost:3000",
-    cancel_url: "http://localhost:3000",
+    success_url: "http://localhost:3000/",
+    cancel_url: "http://localhost:3000/",
     metadata: {
       orderId,
     },
@@ -35,7 +43,8 @@ export const createStripeCheckout = async ({
           name: product.name,
           images: [product.imageUrl],
         },
-        unit_amount: parseInt(String(product.price * 100)),
+        unit_amount:
+          productsWithPrices.find((p) => p.id === product.id)!.price * 100,
       },
       quantity: product.quantity,
     })),

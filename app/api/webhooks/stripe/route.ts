@@ -38,8 +38,15 @@ export async function POST(request: Request) {
         data: {
           status: "PAYMENT_CONFIRMED",
         },
+        include: {
+          restaurant: {
+            select: {
+              slug: true,
+            },
+          },
+        },
       });
-      revalidatePath("/my-orders");
+      revalidatePath(`/my-orders`);
       break;
     }
 
@@ -65,7 +72,7 @@ export async function POST(request: Request) {
           },
         },
       });
-      revalidatePath("/my-orders");
+      revalidatePath(`/my-orders`);
       break;
     }
   }
