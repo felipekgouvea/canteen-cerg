@@ -30,7 +30,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/app/_components/ui/select";
-import { menuCategories } from "../_constants";
+import { useEffect, useState, useTransition } from "react";
+import { upsertProduct } from "@/app/_actions/upsert-product";
+import { toast } from "sonner";
+import { getMenuCategories } from "@/app/_actions/get-menu-categories";
 
 const formSchema = z.object({
   id: z.string().optional(),
@@ -44,7 +47,7 @@ const formSchema = z.object({
     message: "Descrição do produto deve ter pelo menos 1 caractere",
   }),
   imageUrl: z.string().min(1, { message: "URL da imagem é obrigatória" }),
-  menuCategory: z.string().min(1, {
+  menuCategoryId: z.string().min(1, {
     message: "Categoria do produto deve ter pelo menos 1 caractere",
   }),
 });
@@ -63,14 +66,45 @@ const UpsertProductForm = ({ onSuccess }: UpsertProductFormProps) => {
       price: 0,
       description: "",
       imageUrl: "",
-      menuCategory: "",
+      menuCategoryId: "", // inicial vazio para forçar seleção
       id: crypto.randomUUID(),
     },
   });
+  const [menuCategories, setMenuCategories] = useState<
+    { id: string; name: string }[]
+  >([]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const res = await getMenuCategories();
+
+      setMenuCategories(res);
+    };
+
+    fetchCategories();
+  }, []);
+
+  const [isPending, startTransition] = useTransition();
 
   const onSubmit = (values: ProductFormSchema) => {
-    console.log(values);
-    onSuccess?.();
+    startTransition(async () => {
+      try {
+        await upsertProduct({
+          id: values.id,
+          name: values.name,
+          priceInCents: Math.round(values.price * 100), // transforma em centavos
+          description: values.description,
+          imageUrl: values.imageUrl,
+          menuCategoryId: values.menuCategoryId,
+        });
+
+        onSuccess?.();
+        toast.success("Produto salvo com sucesso");
+      } catch (error) {
+        console.error("Erro ao salvar produto", error);
+        toast.error("Erro ao salvar produto");
+      }
+    });
   };
 
   return (
@@ -113,13 +147,16 @@ const UpsertProductForm = ({ onSuccess }: UpsertProductFormProps) => {
           <div className="grid grid-cols-2 gap-4">
             <FormField
               control={form.control}
-              name="menuCategory"
+              name="menuCategoryId"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-sm font-light">
                     Categoria do produto
                   </FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value}>
+                  <Select
+                    onValueChange={field.onChange}
+                    value={field.value ?? ""}
+                  >
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Selecione a categoria do produto" />
@@ -129,10 +166,10 @@ const UpsertProductForm = ({ onSuccess }: UpsertProductFormProps) => {
                       {menuCategories.map((option) => (
                         <SelectItem
                           className="flex w-full gap-5"
-                          key={option.value}
-                          value={option.value}
+                          key={option.id}
+                          value={option.id}
                         >
-                          {option.label}
+                          {option.name}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -202,8 +239,8 @@ const UpsertProductForm = ({ onSuccess }: UpsertProductFormProps) => {
           </div>
 
           <DialogFooter>
-            <Button type="submit" disabled={form.formState.isSubmitting}>
-              {form.formState.isSubmitting ? "Salvando..." : "Salvar"}
+            <Button type="submit" disabled={isPending}>
+              {isPending ? "Salvando..." : "Salvar"}
             </Button>
             <Button
               onClick={() => {
