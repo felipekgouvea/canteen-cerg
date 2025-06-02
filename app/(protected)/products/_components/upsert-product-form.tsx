@@ -49,9 +49,13 @@ const formSchema = z.object({
   }),
 });
 
+interface UpsertProductFormProps {
+  onSuccess?: () => void;
+}
+
 type ProductFormSchema = z.infer<typeof formSchema>;
 
-const UpsertProductForm = () => {
+const UpsertProductForm = ({ onSuccess }: UpsertProductFormProps) => {
   const form = useForm<ProductFormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -66,6 +70,7 @@ const UpsertProductForm = () => {
 
   const onSubmit = (values: ProductFormSchema) => {
     console.log(values);
+    onSuccess?.();
   };
 
   return (
@@ -197,14 +202,17 @@ const UpsertProductForm = () => {
           </div>
 
           <DialogFooter>
-            <Button
-              className="bg-primary text-primary-foreground hover:bg-muted-foreground"
-              type="submit"
-              disabled={form.formState.isSubmitting}
-            >
+            <Button type="submit" disabled={form.formState.isSubmitting}>
               {form.formState.isSubmitting ? "Salvando..." : "Salvar"}
             </Button>
-            <Button type="button" variant="outline">
+            <Button
+              onClick={() => {
+                form.reset();
+                onSuccess?.();
+              }}
+              type="button"
+              variant="outline"
+            >
               Cancelar
             </Button>
           </DialogFooter>

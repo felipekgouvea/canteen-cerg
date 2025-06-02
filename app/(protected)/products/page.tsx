@@ -10,7 +10,7 @@ import { PageDescription } from "@/app/_components/ui/page-container";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import AddProductProduct from "./_components/add-product-product";
+import AddProductDialog from "./_components/add-product-dialog";
 
 const ProductsPage = async () => {
   const session = await getServerSession(authOptions);
@@ -27,7 +27,7 @@ const ProductsPage = async () => {
           <PageDescription>Gerencie os produtos</PageDescription>
         </PageHeaderContent>
         <PageActions>
-          <AddProductProduct />
+          <AddProductDialog />
         </PageActions>
       </PageHeader>
       <PageContent>

@@ -10,12 +10,14 @@ import {
   DialogTrigger,
 } from "@/app/_components/ui/dialog";
 import UpsertProductForm from "./upsert-product-form";
+import { useState } from "react";
 
-const AddProductProduct = () => {
+const AddProductDialog = () => {
+  const [isOpen, setIsOpen] = useState(false);
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button className="bg-primary text-primary-foreground hover:bg-muted-foreground">
+        <Button>
           <Plus />
           Novo Produto
         </Button>
@@ -24,10 +26,10 @@ const AddProductProduct = () => {
         <DialogHeader>
           <DialogTitle>Novo Produto</DialogTitle>
         </DialogHeader>
-        <UpsertProductForm />
+        <UpsertProductForm onSuccess={() => setIsOpen(false)} />
       </DialogContent>
     </Dialog>
   );
 };
 
-export default AddProductProduct;
+export default AddProductDialog;
