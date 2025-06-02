@@ -11,13 +11,28 @@ import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import AddProductDialog from "./_components/add-product-dialog";
-
+import { DataTable } from "./data-table/data-table";
+import { columns } from "./data-table/columns";
+import { db } from "@/lib/prisma";
 const ProductsPage = async () => {
   const session = await getServerSession(authOptions);
 
   if (!session?.user) {
     redirect("/authentication");
   }
+
+  const data = await db.product.findMany({
+    include: {
+      menuCategory: {
+        select: {
+          name: true,
+        },
+      },
+    },
+    orderBy: {
+      name: "asc",
+    },
+  });
 
   return (
     <PageContainer>
@@ -32,7 +47,7 @@ const ProductsPage = async () => {
       </PageHeader>
       <PageContent>
         <div>
-          <h1>Produtos</h1>
+          <DataTable columns={columns} data={data} pageSize={4} />
         </div>
       </PageContent>
     </PageContainer>
