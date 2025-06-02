@@ -16,7 +16,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@/app/_components/ui/select";
 
 import { CartContext } from "@/app/contexts/cart";
 import { Loader2 } from "lucide-react";

@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 // import { toast } from "sonner";
 import { z } from "zod";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/app/_components/ui/button";
 import {
   Card,
   CardContent,
@@ -23,7 +23,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/app/_components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/app/_components/ui/input";
 import { signIn } from "next-auth/react";
 
 const loginSchema = z.object({

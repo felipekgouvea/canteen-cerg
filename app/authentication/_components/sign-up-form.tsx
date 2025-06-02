@@ -23,9 +23,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/app/_components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/app/_components/ui/input";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/app/_components/ui/button";
 
 const registerSchema = z.object({
   name: z.string().trim().min(1, { message: "Nome é obrigatório" }),

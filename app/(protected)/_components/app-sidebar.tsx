@@ -13,13 +13,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/app/_components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@/app/_components/ui/dropdown-menu";
 import {
   Sidebar,
   SidebarContent,
@@ -31,7 +35,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar";
+} from "@/app/_components/ui/sidebar";
 import { signOut, useSession } from "next-auth/react";
 import LogoMarca from "@/public/CERG.png";
 import { formatName } from "@/helpers/format-name";
@@ -98,7 +102,9 @@ export function AppSidebar() {
                   <SidebarMenuButton
                     asChild
                     isActive={pathname === item.url}
-                    className={pathname === item.url ? "text-primary" : ""}
+                    className={
+                      pathname === item.url ? "text-primary" : "text-foreground"
+                    }
                   >
                     <Link href={item.url}>
                       <item.icon />

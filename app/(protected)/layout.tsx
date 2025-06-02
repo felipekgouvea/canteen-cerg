@@ -1,4 +1,4 @@
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/app/_components/ui/sidebar";
 import { AppSidebar } from "./_components/app-sidebar";
 import AuthProvider from "../_providers/auth";
 

@@ -7,7 +7,7 @@ import {
   PageTitle,
   PageActions,
 } from "@/app/_components/ui/page-container";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/app/_components/ui/button";
 
 const StudentsPage = () => {
   return (
