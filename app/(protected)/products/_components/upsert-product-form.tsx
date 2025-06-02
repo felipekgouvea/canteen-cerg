@@ -44,13 +44,9 @@ const formSchema = z.object({
     message: "Descrição do produto deve ter pelo menos 1 caractere",
   }),
   imageUrl: z.string().min(1, { message: "URL da imagem é obrigatória" }),
-  ingredients: z
-    .array(z.string())
-    .min(1, { message: "Ingredientes devem ter pelo menos 1 caractere" }),
   menuCategory: z.string().min(1, {
     message: "Categoria do produto deve ter pelo menos 1 caractere",
   }),
-  restaurantId: z.string().min(1, { message: "Restaurante é obrigatório" }),
 });
 
 type ProductFormSchema = z.infer<typeof formSchema>;
@@ -63,12 +59,14 @@ const UpsertProductForm = () => {
       price: 0,
       description: "",
       imageUrl: "",
-      ingredients: [],
       menuCategory: "",
-      restaurantId: "",
       id: crypto.randomUUID(),
     },
   });
+
+  const onSubmit = (values: ProductFormSchema) => {
+    console.log(values);
+  };
 
   return (
     <DialogContent className="h-[600px] max-w-4xl">
@@ -77,7 +75,7 @@ const UpsertProductForm = () => {
         <DialogDescription>Adicione um novo produto</DialogDescription>
       </DialogHeader>
       <Form {...form}>
-        <form className="space-y-4">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <FormField
               control={form.control}
@@ -173,7 +171,11 @@ const UpsertProductForm = () => {
                 <FormItem>
                   <FormLabel>Descrição do produto</FormLabel>
                   <FormControl>
-                    <Textarea {...field} className="h-[200px]" />
+                    <Textarea
+                      {...field}
+                      className="h-[200px]"
+                      style={{ resize: "none" }}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -195,7 +197,13 @@ const UpsertProductForm = () => {
           </div>
 
           <DialogFooter>
-            <Button type="submit">Salvar</Button>
+            <Button
+              className="bg-primary text-primary-foreground hover:bg-muted-foreground"
+              type="submit"
+              disabled={form.formState.isSubmitting}
+            >
+              {form.formState.isSubmitting ? "Salvando..." : "Salvar"}
+            </Button>
             <Button type="button" variant="outline">
               Cancelar
             </Button>
