@@ -5,6 +5,7 @@ import { formatCurrency } from "@/helpers/format-currency";
 import Image from "next/image";
 import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/app/_components/ui/button";
+
 export type Product = {
   id: string;
   name: string;
@@ -50,7 +51,7 @@ export const columns: ColumnDef<Product>[] = [
       );
     },
     cell: ({ row }) => {
-      return <div>{formatCurrency(row.original.price / 100)}</div>;
+      return <div>{formatCurrency(row.original.price)}</div>;
     },
   },
   {

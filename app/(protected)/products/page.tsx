@@ -11,9 +11,10 @@ import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import AddProductDialog from "./_components/add-product-dialog";
-import { DataTable } from "./data-table/data-table";
-import { columns } from "./data-table/columns";
+import { DataTable } from "../_components/data-table";
+import { columns } from "./_data-table/columns";
 import { db } from "@/lib/prisma";
+
 const ProductsPage = async () => {
   const session = await getServerSession(authOptions);
 

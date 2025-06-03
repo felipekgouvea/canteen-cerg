@@ -8,8 +8,33 @@ import {
   PageActions,
 } from "@/app/_components/ui/page-container";
 import { Button } from "@/app/_components/ui/button";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { redirect } from "next/navigation";
+import { db } from "@/lib/prisma";
+import { DataTable } from "../_components/data-table";
+import { studentsColumns } from "./_data-table/studentsColumns";
 
-const StudentsPage = () => {
+const StudentsPage = async () => {
+  const session = await getServerSession(authOptions);
+
+  if (!session?.user) {
+    redirect("/authentication");
+  }
+
+  const data = await db.student.findMany({
+    include: {
+      serie: {
+        select: {
+          name: true,
+        },
+      },
+    },
+    orderBy: {
+      name: "asc",
+    },
+  });
+
   return (
     <PageContainer>
       <PageHeader>
@@ -23,7 +48,7 @@ const StudentsPage = () => {
       </PageHeader>
       <PageContent>
         <div>
-          <h1>Alunos</h1>
+          <DataTable columns={studentsColumns} data={data} pageSize={4} />
         </div>
       </PageContent>
     </PageContainer>
