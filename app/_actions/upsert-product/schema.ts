@@ -15,6 +15,9 @@ export const upsertProductSchema = z.object({
   menuCategoryId: z.string().min(1, {
     message: "Categoria do produto deve ter pelo menos 1 caractere",
   }),
+  restaurantId: z.string().min(1, {
+    message: "Restaurante do produto deve ter pelo menos 1 caractere",
+  }),
 });
 
 export type UpsertProductSchema = z.infer<typeof upsertProductSchema>;

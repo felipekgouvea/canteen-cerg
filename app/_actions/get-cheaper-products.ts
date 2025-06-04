@@ -3,29 +3,30 @@
 import { db } from "@/lib/prisma";
 
 export async function getCheaperProducts() {
-  const categories = ["Salgados", "Pizzas", "Bebidas"];
+  const categories = ["Combos", "Lanches", "Bebidas", "Fritas"];
 
   const results = await Promise.all(
-    categories.map(async (category) => {
-      const products = await db.product.findMany({
+    categories.map((category) =>
+      db.product.findMany({
         where: {
           price: {
-            gte: 1,
-            lte: 7,
+            gte: 30,
+            lte: 50,
           },
           menuCategory: {
             name: category,
           },
         },
+        include: {
+          menuCategory: true,
+        },
         orderBy: {
           price: "asc",
         },
-        take: 3,
-      });
-
-      return products;
-    }),
+        take: 10,
+      }),
+    ),
   );
 
-  return results.flat();
+  return results.flat(); // lista única com todos os produtos
 }

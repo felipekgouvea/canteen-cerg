@@ -31,7 +31,7 @@ const ProductsPage = async () => {
       },
     },
     orderBy: {
-      name: "asc",
+      createdAt: "desc",
     },
   });
 

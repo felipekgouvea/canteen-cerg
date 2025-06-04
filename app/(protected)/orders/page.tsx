@@ -48,11 +48,23 @@ import { db } from "@/lib/prisma";
 //   },
 // });
 
+const startOfDay = new Date();
+startOfDay.setHours(0, 0, 0, 0);
+
+const endOfDay = new Date();
+endOfDay.setHours(23, 59, 59, 999);
+
 const orders = await db.order.findMany({
+  where: {
+    createdAt: {
+      gte: startOfDay,
+      lte: endOfDay,
+    },
+  },
   include: {
     user: {
       select: {
-        name: true, // <- só use se tiver certeza de que nunca será null
+        name: true,
         image: true,
       },
     },
@@ -79,6 +91,7 @@ const orders = await db.order.findMany({
   },
 });
 
+console.log(orders);
 const OrdersPage = () => {
   return (
     <PageContainer>

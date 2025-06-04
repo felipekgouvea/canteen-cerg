@@ -108,7 +108,7 @@ const FinishOrderDialog = ({ onOpenChange, open }: FinishOrderDialogProps) => {
       setIsSubmitLoading(true);
       const order = await createOrder({
         products,
-        restaurantId: "1bf67991-edd3-4624-9fa8-748c94723788",
+        restaurantId: "cc66275d-0dc1-44f8-833e-b5711edb6bf4",
         studentId: parseInt(formData.studentId),
         userId: data.user.id,
       });

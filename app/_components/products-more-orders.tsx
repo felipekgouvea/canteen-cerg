@@ -24,6 +24,8 @@ const ProductsMoreOrders = ({ title }: ProductsMoreOrdersProps) => {
     fetchData();
   }, []);
 
+  console.log(`products`, products);
+
   return (
     <>
       <div className="flex items-center justify-between">

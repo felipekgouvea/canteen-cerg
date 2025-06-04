@@ -50,6 +50,9 @@ const formSchema = z.object({
   menuCategoryId: z.string().min(1, {
     message: "Categoria do produto deve ter pelo menos 1 caractere",
   }),
+  restaurantId: z.string().min(1, {
+    message: "Restaurante do produto deve ter pelo menos 1 caractere",
+  }),
 });
 
 interface UpsertProductFormProps {
@@ -68,6 +71,7 @@ const UpsertProductForm = ({ onSuccess }: UpsertProductFormProps) => {
       imageUrl: "",
       menuCategoryId: "", // inicial vazio para forçar seleção
       id: crypto.randomUUID(),
+      restaurantId: "cc66275d-0dc1-44f8-833e-b5711edb6bf4",
     },
   });
   const [menuCategories, setMenuCategories] = useState<
@@ -96,6 +100,7 @@ const UpsertProductForm = ({ onSuccess }: UpsertProductFormProps) => {
           description: values.description,
           imageUrl: values.imageUrl,
           menuCategoryId: values.menuCategoryId,
+          restaurantId: values.restaurantId,
         });
 
         onSuccess?.();

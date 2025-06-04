@@ -77,6 +77,22 @@ const statusMap: Record<
   CANCELLED: { label: "Cancelado", variant: "destructive" },
 };
 
+const serieMap: Record<
+  string,
+  {
+    label: string;
+  }
+> = {
+  MATERNAL: { label: "Maternal" },
+  PRE_I: { label: "Pré I" },
+  PRE_II: { label: "Pré II" },
+  PRIMEIRO_ANO: { label: "1º ANO" },
+  SEGUNDO_ANO: { label: "2º ANO" },
+  TERCEIRO_ANO: { label: "3º ANO" },
+  QUARTO_ANO: { label: "4º ANO" },
+  QUINTO_ANO: { label: "5º ANO" },
+};
+
 const OrderCard = ({ order }: OrderCardProps) => {
   return (
     <Card>
@@ -91,7 +107,7 @@ const OrderCard = ({ order }: OrderCardProps) => {
               {formatName(order.student.name).toLocaleUpperCase()}
             </h3>
             <p className="text-sm text-muted-foreground">
-              {order.student.serie.name}
+              {serieMap[order.student.serie.name].label}
             </p>
           </div>
         </div>
@@ -115,7 +131,7 @@ const OrderCard = ({ order }: OrderCardProps) => {
       <CardFooter className="flex flex-col gap-2">
         <Dialog>
           <DialogTrigger asChild>
-            <Button className="w-full">Ver detalhes</Button>
+            <Button className="mt-4 w-full">Ver detalhes</Button>
           </DialogTrigger>
         </Dialog>
         {/* <AlertDialog>

@@ -2,11 +2,10 @@
 
 import { db } from "@/lib/prisma";
 import { upsertProductSchema, type UpsertProductSchema } from "./schema";
+import { revalidatePath } from "next/cache";
 
 export const upsertProduct = async (data: UpsertProductSchema) => {
   upsertProductSchema.parse(data);
-
-  const restaurantId = "1bf67991-edd3-4624-9fa8-748c94723788";
 
   await db.product.upsert({
     where: { id: data.id! },
@@ -20,7 +19,7 @@ export const upsertProduct = async (data: UpsertProductSchema) => {
         connect: { id: data.menuCategoryId },
       },
       restaurant: {
-        connect: { id: restaurantId },
+        connect: { id: data.restaurantId }, // atualizado aqui
       },
     },
     update: {
@@ -32,8 +31,9 @@ export const upsertProduct = async (data: UpsertProductSchema) => {
         connect: { id: data.menuCategoryId },
       },
       restaurant: {
-        connect: { id: restaurantId },
+        connect: { id: data.restaurantId }, // e aqui
       },
     },
   });
+  revalidatePath("/products");
 };
