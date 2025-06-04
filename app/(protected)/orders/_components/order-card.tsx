@@ -74,6 +74,7 @@ const statusMap: Record<
   PAYMENT_CONFIRMED: { label: "Pagamento Confirmado", variant: "success" },
   PAYMENT_FAILED: { label: "Pagamento Falhou", variant: "destructive" },
   FINISHED: { label: "Entregue", variant: "success" },
+  CANCELLED: { label: "Cancelado", variant: "destructive" },
 };
 
 const OrderCard = ({ order }: OrderCardProps) => {

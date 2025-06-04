@@ -39,6 +39,7 @@ const statusMap: Record<
   PAYMENT_CONFIRMED: { label: "Pagamento Confirmado", variant: "success" },
   PAYMENT_FAILED: { label: "Pagamento Falhou", variant: "destructive" },
   FINISHED: { label: "Finalizado", variant: "default" },
+  CANCELLED: { label: "Cancelado", variant: "destructive" },
 };
 
 export const ordersColumns: ColumnDef<Order>[] = [
