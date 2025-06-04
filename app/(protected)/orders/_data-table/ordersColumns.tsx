@@ -8,6 +8,8 @@ import { formatCurrency } from "@/helpers/format-currency";
 import { formatName } from "@/helpers/format-name";
 import { formatDateTimeBR } from "@/helpers/format-date";
 import { Badge } from "@/app/_components/ui/badge";
+import { OrderStatusButton } from "../_components/order-status-button";
+import { CancelOrderButton } from "../_components/order-cancel-button";
 
 export type Order = {
   id: number;
@@ -101,24 +103,16 @@ export const ordersColumns: ColumnDef<Order>[] = [
   },
   {
     id: "actions",
-    header: "Ações",
+    header: "Atualizar Status",
     cell: ({ row }) => {
-      const order = row.original;
-      const isDisabled =
-        order.status === "FINISHED" || order.status === "PAYMENT_FAILED";
-
       return (
-        <form action="/api/update-order-status" method="POST">
-          <input type="hidden" name="orderId" value={order.id} />
-          <Button
-            type="submit"
-            variant="secondary"
-            size="sm"
-            disabled={isDisabled}
-          >
-            Avançar Status
-          </Button>
-        </form>
+        <div className="flex items-center gap-2">
+          <OrderStatusButton orderId={row.original.id} />
+          <CancelOrderButton
+            orderId={row.original.id}
+            currentStatus={row.original.status}
+          />
+        </div>
       );
     },
   },
