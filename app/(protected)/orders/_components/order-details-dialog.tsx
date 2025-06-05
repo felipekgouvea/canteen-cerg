@@ -56,6 +56,22 @@ const statusMap: Record<
   CANCELLED: { label: "Cancelado", variant: "destructive" },
 };
 
+const serieMap: Record<
+  string,
+  {
+    label: string;
+  }
+> = {
+  MATERNAL: { label: "Maternal" },
+  PRE_I: { label: "Pré I" },
+  PRE_II: { label: "Pré II" },
+  PRIMEIRO_ANO: { label: "1º ANO" },
+  SEGUNDO_ANO: { label: "2º ANO" },
+  TERCEIRO_ANO: { label: "3º ANO" },
+  QUARTO_ANO: { label: "4º ANO" },
+  QUINTO_ANO: { label: "5º ANO" },
+};
+
 export default function OrderDetailsDialog({ order }: OrderDetailsDialogProps) {
   return (
     <Dialog>
@@ -92,7 +108,9 @@ export default function OrderDetailsDialog({ order }: OrderDetailsDialogProps) {
               </div>
               <div className="flex gap-2">
                 <p className="text-sm font-medium">Série:</p>
-                <p className="text-sm">{order.student.serie.name}</p>
+                <p className="text-sm">
+                  {serieMap[order.student.serie.name].label}
+                </p>
               </div>
             </div>
             <div>
@@ -103,7 +121,7 @@ export default function OrderDetailsDialog({ order }: OrderDetailsDialogProps) {
           </div>
           <Separator className="my-4" />
           <div className="flex flex-col gap-2">
-            <p className="text-sm font-medium">STATUS DO PEDIDO</p>
+            <p className="text-sm font-medium">MUDAR STATUS DO PEDIDO</p>
             <div className="flex gap-2">
               <Button variant="warning">
                 <p className="text-sm">Em Preparação</p>
