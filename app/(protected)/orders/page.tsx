@@ -14,8 +14,6 @@ import { Skeleton } from "@/app/_components/ui/skeleton";
 const OrdersPage = () => {
   const { orders, isLoading } = useOrders();
 
-  console.log(orders);
-
   return (
     <PageContainer>
       <PageHeader>

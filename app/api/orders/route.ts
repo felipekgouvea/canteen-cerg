@@ -59,11 +59,7 @@ export async function GET() {
       },
       products: {
         include: {
-          product: {
-            select: {
-              name: true,
-            },
-          },
+          product: true,
         },
       },
     },

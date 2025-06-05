@@ -17,20 +17,19 @@ import {
   AvatarImage,
 } from "@/app/_components/ui/avatar";
 import { Badge } from "@/app/_components/ui/badge";
-import { Button } from "@/app/_components/ui/button";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
 } from "@/app/_components/ui/card";
-import { Dialog, DialogTrigger } from "@/app/_components/ui/dialog";
 import { Separator } from "@/app/_components/ui/separator";
 import { formatCurrency } from "@/helpers/format-currency";
 import { formatDateBR } from "@/helpers/format-date-br";
 import { formatName } from "@/helpers/format-name";
 import type { OrderStatus } from "@prisma/client";
 import { CalendarIcon, ClockIcon, DollarSignIcon } from "lucide-react";
+import OrderDetailsDialog from "./order-details-dialog";
 
 interface OrderCardProps {
   order: {
@@ -56,7 +55,9 @@ interface OrderCardProps {
     };
     products: {
       product: {
+        id: number;
         name: string;
+        quantity: number;
       };
     }[];
   };
@@ -129,36 +130,7 @@ const OrderCard = ({ order }: OrderCardProps) => {
       </CardContent>
       <Separator />
       <CardFooter className="flex flex-col gap-2">
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button className="mt-4 w-full">Ver detalhes</Button>
-          </DialogTrigger>
-        </Dialog>
-        {/* <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button variant="outline" className="w-full">
-              <TrashIcon />
-              Deletar médico
-            </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>
-                Tem certeza que deseja deletar esse médico?
-              </AlertDialogTitle>
-              <AlertDialogDescription>
-                Essa ação não pode ser revertida. Isso irá deletar o médico e
-                todas as consultas agendadas.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancelar</AlertDialogCancel>
-              <AlertDialogAction onClick={handleDeleteDoctorClick}>
-                Deletar
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog> */}
+        <OrderDetailsDialog order={order} />
       </CardFooter>
     </Card>
   );
