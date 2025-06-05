@@ -12,15 +12,10 @@ export const orderSchema = z.object({
     "FINISHED",
     "CANCELLED",
   ]),
-  createdAt: z.string().transform((val) => new Date(val)),
-  updatedAt: z.string().transform((val) => new Date(val)),
-  studentId: z.number(),
-  userId: z.string(),
-  restaurantId: z.string(),
   user: z.object({
     name: z.string().nullable(),
-    image: z.string().nullable(),
   }),
+  createdAt: z.string().transform((val) => new Date(val)),
   student: z.object({
     name: z.string(),
     imageURL: z.string(),
@@ -28,10 +23,12 @@ export const orderSchema = z.object({
       name: z.string(),
     }),
   }),
-  products: z.array(
+  orderProducts: z.array(
     z.object({
+      quantity: z.number(),
       product: z.object({
         name: z.string(),
+        id: z.number(),
       }),
     }),
   ),

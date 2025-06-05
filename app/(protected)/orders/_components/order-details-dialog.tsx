@@ -18,18 +18,11 @@ import { formatCurrency } from "@/helpers/format-currency";
 
 interface OrderDetailsDialogProps {
   order: {
-    id: number;
-    total: number;
     status: OrderStatus;
     createdAt: Date;
-    updatedAt: Date;
-    studentId: number;
-    userId: string;
-    restaurantId: string;
-
+    total: number;
     user: {
       name: string | null;
-      image: string | null;
     };
     student: {
       name: string;
@@ -38,11 +31,11 @@ interface OrderDetailsDialogProps {
         name: string;
       };
     };
-    products: {
+    orderProducts: {
+      quantity: number;
       product: {
-        id: number;
         name: string;
-        quantity: number;
+        id: number;
       };
     }[];
   };
@@ -127,14 +120,14 @@ export default function OrderDetailsDialog({ order }: OrderDetailsDialogProps) {
           <div className="flex flex-col gap-2">
             <p className="text-sm font-medium">PRODUTOS DO PEDIDO</p>
             <div className="flex flex-col gap-2 rounded-md border border-gray-200 p-2">
-              {order.products.map((orderProduct) => (
+              {order.orderProducts.map((orderProduct) => (
                 <div
                   key={orderProduct.product.id}
                   className="flex items-center gap-2"
                 >
                   <div className="flex h-5 w-5 items-center justify-center rounded-full bg-muted-foreground">
                     <span className="block text-xs text-white">
-                      {orderProduct.product.quantity}
+                      {orderProduct.quantity}
                     </span>
                   </div>
                   <span className="text-xs text-muted-foreground">

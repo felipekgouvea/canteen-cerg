@@ -42,12 +42,13 @@ export async function GET() {
     include: {
       user: {
         select: {
+          id: true,
           name: true,
-          image: true,
         },
       },
       student: {
         select: {
+          id: true,
           name: true,
           imageURL: true,
           serie: {
@@ -57,9 +58,17 @@ export async function GET() {
           },
         },
       },
-      products: {
-        include: {
-          product: true,
+      orderProducts: {
+        select: {
+          id: true,
+          quantity: true,
+          price: true,
+          product: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
         },
       },
     },

@@ -119,18 +119,18 @@ model UserFavoriteProduct {
 }
 
 model Order {
-  id           Int            @id @default(autoincrement())
-  total        Float
-  status       OrderStatus
-  studentId    Int
-  student      Student        @relation(fields: [studentId], references: [id])
-  userId       String
-  user         User           @relation(fields: [userId], references: [id])
-  restaurant   Restaurant     @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
-  restaurantId String
-  products     OrderProduct[]  
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
+  id            Int            @id @default(autoincrement())
+  total         Float
+  status        OrderStatus
+  studentId     Int
+  student       Student        @relation(fields: [studentId], references: [id])
+  userId        String
+  user          User           @relation(fields: [userId], references: [id])
+  restaurant    Restaurant     @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  restaurantId  String
+  orderProducts OrderProduct[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
 }
 
 model OrderProduct {

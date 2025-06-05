@@ -33,18 +33,11 @@ import OrderDetailsDialog from "./order-details-dialog";
 
 interface OrderCardProps {
   order: {
-    id: number;
-    total: number;
     status: OrderStatus;
     createdAt: Date;
-    updatedAt: Date;
-    studentId: number;
-    userId: string;
-    restaurantId: string;
-
+    total: number;
     user: {
       name: string | null;
-      image: string | null;
     };
     student: {
       name: string;
@@ -53,11 +46,11 @@ interface OrderCardProps {
         name: string;
       };
     };
-    products: {
+    orderProducts: {
+      quantity: number;
       product: {
-        id: number;
         name: string;
-        quantity: number;
+        id: number;
       };
     }[];
   };
