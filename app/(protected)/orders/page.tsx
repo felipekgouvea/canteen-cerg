@@ -11,8 +11,15 @@ import {
 import OrderCard from "./_components/order-card";
 import { useOrders } from "./hooks/use-orders";
 import { Skeleton } from "@/app/_components/ui/skeleton";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 const OrdersPage = () => {
   const { orders, isLoading } = useOrders();
+  const { data: session } = useSession();
+
+  if (!session?.user) {
+    redirect("/authentication");
+  }
 
   console.log(orders);
 
