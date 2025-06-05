@@ -15,17 +15,25 @@ interface ProductsCheapGoodProps {
 
 const ProductsCheapGood = ({ title, userId }: ProductsCheapGoodProps) => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await getTop10MostOrderedProductsByUser(userId);
-      setProducts(result);
+      try {
+        const result = await getTop10MostOrderedProductsByUser(userId);
+        setProducts(result || []);
+      } catch (err) {
+        console.error("Erro ao buscar produtos mais pedidos:", err);
+        setError(true);
+      }
     };
 
     if (userId) {
       fetchData();
     }
   }, [userId]);
+
+  if (error) return null;
 
   return (
     <>

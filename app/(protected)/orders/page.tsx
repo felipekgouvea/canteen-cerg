@@ -10,7 +10,7 @@ import {
 } from "@/app/_components/ui/page-container";
 import OrderCard from "./_components/order-card";
 import { useOrders } from "./hooks/use-orders";
-
+import { Skeleton } from "@/app/_components/ui/skeleton";
 const OrdersPage = () => {
   const { orders, isLoading } = useOrders();
 
@@ -26,9 +26,9 @@ const OrdersPage = () => {
       </PageHeader>
       <PageContent>
         {isLoading ? (
-          <p>Carregando pedidos...</p>
+          <Skeleton className="h-[200px] w-[200px]" />
         ) : (
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
             {orders.map((order) => (
               <OrderCard key={order.id} order={order} />
             ))}

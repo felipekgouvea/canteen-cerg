@@ -14,15 +14,23 @@ interface ProductsHomeProps {
 
 const ProductsHome = ({ title }: ProductsHomeProps) => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await getProductsHome();
-      setProducts(result);
+      try {
+        const result = await getProductsHome();
+        setProducts(result || []);
+      } catch (err) {
+        console.error("Erro ao buscar produtos da home:", err);
+        setError(true);
+      }
     };
 
     fetchData();
   }, []);
+
+  if (error) return null;
 
   return (
     <>

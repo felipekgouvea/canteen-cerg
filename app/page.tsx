@@ -13,22 +13,19 @@ import { getServerSession } from "next-auth";
 
 const HomePage = async () => {
   const session = await getServerSession(authOptions);
-
-  const userId = session?.user.id;
+  const userId = session?.user?.id ?? null;
   const dataAtual = new Date();
+
+  const firstName = session?.user?.name
+    ? getFirstName(session.user.name)
+    : "Visitante";
 
   return (
     <div className="h-screen space-y-8">
       <Header />
 
       <div className="mx-5 flex items-center justify-between">
-        <h2 className="text-lg font-semibold">
-          Olá{" "}
-          {session?.user
-            ? getFirstName(session?.user.name as string)
-            : "Visitante"}
-          !
-        </h2>
+        <h2 className="text-lg font-semibold">Olá {firstName}!</h2>
         <p className="text-sm font-semibold">{formatDateBR(dataAtual)}</p>
       </div>
 
@@ -42,7 +39,6 @@ const HomePage = async () => {
       </div>
 
       <div className="px-5">
-        {/* Renderiza apenas se `userId` estiver disponível */}
         {userId ? (
           <ProductsCheapGood title="Mais pedidos por você" userId={userId} />
         ) : (
@@ -59,9 +55,7 @@ const HomePage = async () => {
         <ProductsMoreOrders title="Opções boas e baratas" />
       </div>
 
-      <div>
-        <Footer />
-      </div>
+      <Footer />
     </div>
   );
 };

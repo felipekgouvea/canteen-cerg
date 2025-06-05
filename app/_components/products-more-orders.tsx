@@ -14,17 +14,23 @@ interface ProductsMoreOrdersProps {
 
 const ProductsMoreOrders = ({ title }: ProductsMoreOrdersProps) => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await getCheaperProducts();
-      setProducts(result);
+      try {
+        const result = await getCheaperProducts();
+        setProducts(result || []);
+      } catch (err) {
+        console.error("Erro ao buscar produtos baratos:", err);
+        setError(true);
+      }
     };
 
     fetchData();
   }, []);
 
-  console.log(`products`, products);
+  if (error) return null;
 
   return (
     <>

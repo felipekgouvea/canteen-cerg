@@ -10,7 +10,7 @@ const fetcher = async (url: string): Promise<Order[]> => {
 
 export const useOrders = () => {
   const { data, error, isLoading, mutate } = useSWR("/api/orders", fetcher, {
-    refreshInterval: 3000, // Atualiza a cada 3 segundos
+    refreshInterval: 10000, // Atualiza a cada 3 segundos
   });
 
   return {

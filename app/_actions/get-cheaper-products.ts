@@ -10,8 +10,8 @@ export async function getCheaperProducts() {
       db.product.findMany({
         where: {
           price: {
-            gte: 30,
-            lte: 50,
+            gte: 3000,
+            lte: 5000,
           },
           menuCategory: {
             name: category,
