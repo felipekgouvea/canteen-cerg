@@ -9,15 +9,20 @@ import {
   DialogTrigger,
 } from "@/app/_components/ui/dialog";
 import type { OrderStatus } from "@prisma/client";
-import { EyeIcon } from "lucide-react";
+import { EyeIcon, Loader2 } from "lucide-react";
 import { formatName } from "@/helpers/format-name";
 import Image from "next/image";
 import { Badge } from "@/app/_components/ui/badge";
 import { Separator } from "@/app/_components/ui/separator";
 import { formatCurrency } from "@/helpers/format-currency";
+import { useOrders } from "../hooks/use-orders";
+import { updateOrderStatus } from "@/app/_actions/order";
+import { toast } from "sonner";
+import { useState } from "react";
 
 interface OrderDetailsDialogProps {
   order: {
+    id: number;
     status: OrderStatus;
     createdAt: Date;
     total: number;
@@ -72,7 +77,42 @@ const serieMap: Record<
   QUINTO_ANO: { label: "5º ANO" },
 };
 
+type ButtonVariant =
+  | "default"
+  | "secondary"
+  | "destructive"
+  | "success"
+  | "warning"
+  | "outline"
+  | "ghost"
+  | "link";
+
+const statusOptions: {
+  status: OrderStatus;
+  label: string;
+  variant: ButtonVariant;
+}[] = [];
+
 export default function OrderDetailsDialog({ order }: OrderDetailsDialogProps) {
+  const { mutate } = useOrders();
+  const [loadingStatus, setLoadingStatus] = useState<OrderStatus | null>(null);
+
+  const isLocked = order.status === "CANCELLED" || order.status === "FINISHED";
+
+  const handleChangeStatus = async (status: OrderStatus) => {
+    setLoadingStatus(status);
+    try {
+      await updateOrderStatus(order.id, status);
+      mutate();
+      toast.success("Status atualizado!");
+    } catch (err) {
+      console.error(err);
+      toast.error("Erro ao atualizar status");
+    } finally {
+      setLoadingStatus(null);
+    }
+  };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -122,16 +162,24 @@ export default function OrderDetailsDialog({ order }: OrderDetailsDialogProps) {
           <Separator className="my-4" />
           <div className="flex flex-col gap-2">
             <p className="text-sm font-medium">MUDAR STATUS DO PEDIDO</p>
-            <div className="flex gap-2">
-              <Button variant="warning">
-                <p className="text-sm">Em Preparação</p>
-              </Button>
-              <Button variant="success">
-                <p className="text-sm">Entregue</p>
-              </Button>
-              <Button variant="danger">
-                <p className="text-sm">Cancelar</p>
-              </Button>
+            <div className="flex flex-wrap gap-2">
+              {statusOptions.map(({ status, label, variant }) => {
+                const isCurrent = status === order.status;
+
+                return (
+                  <Button
+                    key={status}
+                    onClick={() => handleChangeStatus(status)}
+                    variant={variant}
+                    disabled={isCurrent || isLocked || loadingStatus !== null}
+                  >
+                    {loadingStatus === status ? (
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    ) : null}
+                    <span className="text-sm">{label}</span>
+                  </Button>
+                );
+              })}
             </div>
           </div>
           <Separator className="my-4" />
