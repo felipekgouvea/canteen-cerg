@@ -35,7 +35,7 @@ interface OrderDetailsDialogProps {
       quantity: number;
       product: {
         name: string;
-        id: number;
+        id: string;
       };
     }[];
   };

@@ -28,7 +28,7 @@ export const orderSchema = z.object({
       quantity: z.number(),
       product: z.object({
         name: z.string(),
-        id: z.number(),
+        id: z.string(),
       }),
     }),
   ),

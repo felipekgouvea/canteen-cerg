@@ -13,6 +13,7 @@ import { useOrders } from "./hooks/use-orders";
 import { Skeleton } from "@/app/_components/ui/skeleton";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
+
 const OrdersPage = () => {
   const { orders, isLoading } = useOrders();
   const { data: session } = useSession();
@@ -20,8 +21,6 @@ const OrdersPage = () => {
   if (!session?.user) {
     redirect("/authentication");
   }
-
-  console.log(orders);
 
   return (
     <PageContainer>
@@ -34,6 +33,10 @@ const OrdersPage = () => {
       <PageContent>
         {isLoading ? (
           <Skeleton className="h-[200px] w-[200px]" />
+        ) : orders.length === 0 ? (
+          <p className="text-sm text-muted-foreground">
+            Nenhum pedido encontrado hoje.
+          </p>
         ) : (
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
             {orders.map((order) => (
