@@ -15,9 +15,12 @@ import Image from "next/image";
 import { Badge } from "@/app/_components/ui/badge";
 import { Separator } from "@/app/_components/ui/separator";
 import { formatCurrency } from "@/helpers/format-currency";
+// import { updateOrderStatus } from "../_actions/update-status";
+// import { useTransition } from "react";
 
 interface OrderDetailsDialogProps {
   order: {
+    id: number;
     status: OrderStatus;
     createdAt: Date;
     total: number;
@@ -73,6 +76,14 @@ const serieMap: Record<
 };
 
 export default function OrderDetailsDialog({ order }: OrderDetailsDialogProps) {
+  // const [isPending, startTransition] = useTransition();
+
+  // function handleStatusChange(newStatus: OrderStatus) {
+  //   startTransition(() => {
+  //     updateOrderStatus({ orderId: order.id, status: newStatus });
+  //   });
+  // }
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -122,17 +133,38 @@ export default function OrderDetailsDialog({ order }: OrderDetailsDialogProps) {
           <Separator className="my-4" />
           <div className="flex flex-col gap-2">
             <p className="text-sm font-medium">MUDAR STATUS DO PEDIDO</p>
-            <div className="flex gap-2">
-              <Button variant="warning">
-                <p className="text-sm">Em Preparação</p>
+            {/* <div className="flex gap-2">
+              <Button
+                variant="warning"
+                onClick={() => handleStatusChange("IN_PREPARATION")}
+              >
+                {isPending ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <p className="text-sm">Em Preparação</p>
+                )}
               </Button>
-              <Button variant="success">
-                <p className="text-sm">Entregue</p>
+              <Button
+                variant="success"
+                onClick={() => handleStatusChange("FINISHED")}
+              >
+                {isPending ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <p className="text-sm">Entregue</p>
+                )}
               </Button>
-              <Button variant="danger">
-                <p className="text-sm">Cancelar</p>
+              <Button
+                variant="destructive"
+                onClick={() => handleStatusChange("CANCELLED")}
+              >
+                {isPending ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <p className="text-sm">Cancelar</p>
+                )}
               </Button>
-            </div>
+            </div> */}
           </div>
           <Separator className="my-4" />
           <div className="flex flex-col gap-2">

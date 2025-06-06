@@ -31,21 +31,20 @@ const HomePage = async () => {
 
       <Search />
 
-      <div className="mx-5">
+      <div className="mx-5 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         <BannerPromo
           src="/promo-banner-03.png"
           alt="Até 30% de desconto em pizzas"
         />
-      </div>
 
-      <div className="px-5">
-        {userId ? (
-          <ProductsCheapGood title="Mais pedidos por você" userId={userId} />
-        ) : (
-          <ProductsHome title="Salgados e Pizzas" />
-        )}
+        <div className="grid-area-10">
+          {userId ? (
+            <ProductsCheapGood title="Mais pedidos por você" userId={userId} />
+          ) : (
+            <ProductsHome title="Salgados e Pizzas" />
+          )}
+        </div>
       </div>
-
       <BannerPromo
         src="/promo-banner-02.png"
         alt="Os melhores lanches para seu filho(a)!"

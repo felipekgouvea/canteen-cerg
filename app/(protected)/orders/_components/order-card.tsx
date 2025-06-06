@@ -33,6 +33,7 @@ import OrderDetailsDialog from "./order-details-dialog";
 
 interface OrderCardProps {
   order: {
+    id: number;
     status: OrderStatus;
     createdAt: Date;
     total: number;
