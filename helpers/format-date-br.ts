@@ -1,8 +1,10 @@
-export function formatDateBR(date = new Date()) {
-  const d = date;
-  const day = String(d.getDate()).padStart(2, "0");
-  const month = String(d.getMonth() + 1).padStart(2, "0"); // mês começa do zero
-  const year = d.getFullYear();
+export function formatDateBR(date: Date = new Date()): string {
+  const utcDay = date.getUTCDate();
+  const utcMonth = date.getUTCMonth() + 1; // mês começa do zero
+  const utcYear = date.getUTCFullYear();
 
-  return `${day}/${month}/${year}`;
+  const day = String(utcDay).padStart(2, "0");
+  const month = String(utcMonth).padStart(2, "0");
+
+  return `${day}/${month}/${utcYear}`;
 }
