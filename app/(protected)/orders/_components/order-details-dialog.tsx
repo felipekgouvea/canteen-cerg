@@ -27,7 +27,7 @@ import { toast } from "sonner";
 import { useState } from "react";
 import { ScrollArea } from "@/app/_components/ui/scroll-area";
 import { Badge } from "@/app/_components/ui/badge";
-import { formatDateBR } from "@/helpers/format-date-br";
+import { formatDateBRWithTime } from "@/helpers/format-date-br";
 
 interface OrderDetailsDialogProps {
   order: {
@@ -196,7 +196,7 @@ export default function OrderDetailsDialog({ order }: OrderDetailsDialogProps) {
             <div>
               <Badge variant="outline" className="w-fit">
                 <CalendarIcon className="mr-1" size={12} />
-                {formatDateBR(order.createdAt)}
+                {formatDateBRWithTime(order.createdAt)}
               </Badge>
             </div>
           </div>

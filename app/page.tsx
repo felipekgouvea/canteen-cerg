@@ -1,5 +1,4 @@
 import { getFirstName } from "@/helpers/firts-name";
-import { formatDateBR } from "@/helpers/format-date-br";
 
 import BannerPromo from "./_components/banner-promo";
 import Footer from "./_components/footer";
@@ -10,6 +9,7 @@ import ProductsMoreOrders from "./_components/products-more-orders";
 import Search from "./_components/search";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
+import { formatDateBRWithTime } from "@/helpers/format-date-br";
 
 const HomePage = async () => {
   const session = await getServerSession(authOptions);
@@ -26,7 +26,9 @@ const HomePage = async () => {
 
       <div className="mx-5 flex items-center justify-between">
         <h2 className="text-lg font-semibold">Olá {firstName}!</h2>
-        <p className="text-sm font-semibold">{formatDateBR(dataAtual)}</p>
+        <p className="text-sm font-semibold">
+          {formatDateBRWithTime(dataAtual)}
+        </p>
       </div>
 
       <Search />

@@ -14,11 +14,11 @@ import {
 } from "@/app/_components/ui/card";
 import { Separator } from "@/app/_components/ui/separator";
 import { formatCurrency } from "@/helpers/format-currency";
-import { formatDateBR } from "@/helpers/format-date-br";
 import { formatName } from "@/helpers/format-name";
 import type { OrderStatus } from "@prisma/client";
 import { CalendarIcon, ClockIcon, DollarSignIcon } from "lucide-react";
 import OrderDetailsDialog from "./order-details-dialog";
+import { formatDateBRWithTime } from "@/helpers/format-date-br";
 
 interface OrderCardProps {
   order: {
@@ -105,7 +105,7 @@ const OrderCard = ({ order }: OrderCardProps) => {
         </Badge>
         <Badge variant="outline" className="w-fit">
           <CalendarIcon className="mr-1" size={12} />
-          {formatDateBR(order.createdAt)}
+          {formatDateBRWithTime(order.createdAt)}
         </Badge>
         <Badge variant="outline" className="w-fit">
           <DollarSignIcon className="mr-1" size={12} />
