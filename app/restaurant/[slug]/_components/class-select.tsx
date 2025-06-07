@@ -11,11 +11,11 @@ export const CLASS = [
   { value: "MATERNAL", label: "MATERNAL" },
   { value: "PRE_I", label: "PRÉ I" },
   { value: "PRE_II", label: "PRÉ II" },
-  { value: "PRIMEIRO", label: "1º ANO" },
-  { value: "SEGUNDO", label: "2º ANO" },
-  { value: "TERCEIRO", label: "3º ANO" },
-  { value: "QUARTO", label: "4º ANO" },
-  { value: "QUINTO", label: "5º ANO" },
+  { value: "PRIMEIRO_ANO", label: "1º ANO" },
+  { value: "SEGUNDO_ANO", label: "2º ANO" },
+  { value: "TERCEIRO_ANO", label: "3º ANO" },
+  { value: "QUARTO_ANO", label: "4º ANO" },
+  { value: "QUINTO_ANO", label: "5º ANO" },
 ];
 
 const ClassSelect = () => {

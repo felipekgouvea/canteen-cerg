@@ -11,16 +11,17 @@ import {
 import OrderCard from "./_components/order-card";
 import { useOrders } from "./hooks/use-orders";
 import { Skeleton } from "@/app/_components/ui/skeleton";
-import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
+// import { useSession } from "next-auth/react";
+// import { redirect } from "next/navigation";
+import { OrdersFilterBar } from "./_components/orders-filter-bar";
 
 const OrdersPage = () => {
   const { orders, isLoading } = useOrders();
-  const { data: session } = useSession();
+  // const { data: session } = useSession();
 
-  if (!session?.user) {
-    redirect("/authentication");
-  }
+  // if (!session?.user) {
+  //   redirect("/authentication");
+  // }
 
   return (
     <PageContainer>
@@ -28,6 +29,7 @@ const OrdersPage = () => {
         <PageHeaderContent>
           <PageTitle>Pedidos</PageTitle>
           <PageDescription>Gerencie os pedidos dos alunos</PageDescription>
+          <OrdersFilterBar />
         </PageHeaderContent>
       </PageHeader>
       <PageContent>

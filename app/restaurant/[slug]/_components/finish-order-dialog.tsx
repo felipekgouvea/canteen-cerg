@@ -41,15 +41,15 @@ import { createOrder } from "@/app/_actions/create-order";
 const formSchema = z.object({
   studentId: z.string({ message: "O(a) aluno(a) é obrigatório(a)" }),
   studentClass: z.enum([
-    "Selecione",
+    "SELECIONE",
     "MATERNAL",
     "PRE_I",
     "PRE_II",
-    "PRIMEIRO",
-    "SEGUNDO",
-    "TERCEIRO",
-    "QUARTO",
-    "QUINTO",
+    "PRIMEIRO_ANO",
+    "SEGUNDO_ANO",
+    "TERCEIRO_ANO",
+    "QUARTO_ANO",
+    "QUINTO_ANO",
   ]),
 });
 
@@ -71,12 +71,13 @@ const FinishOrderDialog = ({ onOpenChange, open }: FinishOrderDialogProps) => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       studentId: "",
-      studentClass: "Selecione",
+      studentClass: "SELECIONE",
     },
     shouldUnregister: true,
   });
 
   const handleChangeSerie = async (serie: string) => {
+    console.log(serie);
     form.setValue("studentClass", serie as FormSchema["studentClass"]); // Atualiza no formulário
     const studentSeries = await getStudentByClass(serie);
     setStudents(studentSeries);

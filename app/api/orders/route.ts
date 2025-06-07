@@ -1,10 +1,18 @@
 import { db } from "@/lib/prisma";
-import { NextResponse } from "next/server";
+import { Prisma } from "@prisma/client";
+import { OrderStatus } from "@prisma/client";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  const { searchParams } = new URL(req.url);
+
+  const status = searchParams.get("status");
+  const serie = searchParams.get("serie");
+  const startDateParam = searchParams.get("startDate");
+  const endDateParam = searchParams.get("endDate");
+
   const now = new Date();
 
-  // Define o início do dia em UTC (00:00:00.000)
   const startOfDayUTC = new Date(
     Date.UTC(
       now.getUTCFullYear(),
@@ -17,7 +25,6 @@ export async function GET() {
     ),
   );
 
-  // Define o fim do dia em UTC (23:59:59.999)
   const endOfDayUTC = new Date(
     Date.UTC(
       now.getUTCFullYear(),
@@ -30,49 +37,59 @@ export async function GET() {
     ),
   );
 
-  console.log("🔎 Buscando pedidos...");
+  const startDate = startDateParam
+    ? new Date(`${startDateParam}T00:00:00.000Z`)
+    : startOfDayUTC;
+  const endDate = endDateParam
+    ? new Date(`${endDateParam}T23:59:59.999Z`)
+    : endOfDayUTC;
 
-  try {
-    const orders = await db.order.findMany({
-      where: {
-        createdAt: {
-          gte: startOfDayUTC,
-          lte: endOfDayUTC,
+  const whereClause: Prisma.OrderWhereInput = {
+    createdAt: {
+      gte: startDate,
+      lte: endDate,
+    },
+  };
+
+  if (status && status !== "ALL") {
+    whereClause.status = status as OrderStatus;
+  }
+
+  if (serie && serie !== "ALL") {
+    whereClause.student = {
+      serie: {
+        name: serie,
+      },
+    };
+  }
+
+  const orders = await db.order.findMany({
+    where: whereClause,
+    include: {
+      user: { select: { name: true } },
+      student: {
+        select: {
+          name: true,
+          imageURL: true,
+          serie: { select: { name: true } },
         },
       },
-      include: {
-        user: { select: { name: true } },
-        student: {
-          select: {
-            name: true,
-            imageURL: true,
-            serie: { select: { name: true } },
-          },
-        },
-        orderProducts: {
-          select: {
-            quantity: true,
-            product: {
-              select: {
-                name: true,
-                id: true,
-              },
+      orderProducts: {
+        select: {
+          quantity: true,
+          product: {
+            select: {
+              name: true,
+              id: true,
             },
           },
         },
       },
-      orderBy: {
-        createdAt: "asc",
-      },
-    });
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
 
-    console.log("✅ Pedidos encontrados:", orders.length);
-    return NextResponse.json(orders);
-  } catch (error) {
-    console.error("❌ Erro ao buscar pedidos:", error);
-    return NextResponse.json(
-      { error: "Erro ao buscar pedidos" },
-      { status: 500 },
-    );
-  }
+  return NextResponse.json(orders);
 }

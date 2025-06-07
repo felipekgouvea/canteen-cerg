@@ -63,7 +63,7 @@ export const createOrder = async (input: CreateOrderInput) => {
       studentId,
       userId,
       total, // em centavos
-      products: {
+      orderProducts: {
         createMany: {
           data: orderItems,
         },

@@ -91,7 +91,8 @@ const OrderCard = ({ order }: OrderCardProps) => {
               {formatName(order.student.name).toLocaleUpperCase()}
             </h3>
             <p className="text-sm text-muted-foreground">
-              {serieMap[order.student.serie.name].label}
+              {serieMap[order.student.serie.name]?.label ??
+                "Série não identificada"}
             </p>
           </div>
         </div>
