@@ -29,7 +29,7 @@ const ProductItem = ({ product }: ProductItemProps) => {
               <p className="text-sm font-semibold sm:text-base">
                 {product.name}
               </p>
-              <span className="text-xs text-muted-foreground sm:text-sm">
+              <span className="text-xs font-semibold text-primary sm:text-sm">
                 {formatCurrency(product.price)}
               </span>
             </div>

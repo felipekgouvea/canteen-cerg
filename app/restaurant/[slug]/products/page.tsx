@@ -2,16 +2,27 @@
 
 import { searchForProducts } from "@/app/_actions/search";
 import Header from "@/app/_components/header";
+import ProductItem from "@/app/_components/product-item";
+import Footer from "@/app/_components/footer";
+import { Skeleton } from "@/app/_components/ui/skeleton";
 import type { Product } from "@prisma/client";
-import { notFound, useSearchParams } from "next/navigation";
+import { notFound, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import ProductItem from "./_components/product-item";
+
+const SkeletonGrid = () => (
+  <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+    {Array.from({ length: 8 }).map((_, idx) => (
+      <Skeleton key={idx} className="h-48 w-full rounded-md" />
+    ))}
+  </div>
+);
 
 const Products = () => {
   const searchParams = useSearchParams();
-  const [products, setProducts] = useState<Product[]>([]);
+  const router = useRouter();
+  const searchFor = searchParams.get("search") ?? "";
 
-  const searchFor = searchParams.get("search");
+  const [products, setProducts] = useState<Product[] | null>(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -19,7 +30,7 @@ const Products = () => {
       const foundProducts = await searchForProducts(searchFor);
       setProducts(foundProducts);
     };
-
+    setProducts(null); // ativa loading
     fetchProducts();
   }, [searchFor]);
 
@@ -27,16 +38,30 @@ const Products = () => {
     return notFound();
   }
 
+  const handleClickProduct = (productId: string) => {
+    const params = new URLSearchParams(Array.from(searchParams.entries()));
+    params.delete("search");
+    router.push(`/product/${productId}?${params.toString()}`);
+  };
+
   return (
-    <>
+    <div className="flex min-h-screen flex-col">
       <Header />
-      <div className="px-5 py-6">
+      <main className="flex-1 px-5 py-6">
         <h2 className="mb-6 text-lg font-semibold">Produtos Encontrados</h2>
 
-        {products.length > 0 ? (
-          <div className="flex w-full flex-col gap-6">
+        {products === null ? (
+          <SkeletonGrid />
+        ) : products.length > 0 ? (
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
             {products.map((product) => (
-              <ProductItem key={product.id} product={product} />
+              <div
+                key={product.id}
+                onClick={() => handleClickProduct(product.id)}
+                className="cursor-pointer"
+              >
+                <ProductItem product={product} />
+              </div>
             ))}
           </div>
         ) : (
@@ -45,8 +70,11 @@ const Products = () => {
             <p className="mt-4 truncate font-semibold">{searchFor}</p>
           </h3>
         )}
-      </div>
-    </>
+      </main>
+      <footer className="mt-auto">
+        <Footer />
+      </footer>
+    </div>
   );
 };
 

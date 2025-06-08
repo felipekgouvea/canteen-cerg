@@ -1,16 +1,15 @@
+import ProductItem from "@/app/_components/product-item";
 import type { Product } from "@prisma/client";
-import ProductItem from "./product-item";
 
 interface ProductsProps {
   products: Product[];
-  slug: string;
 }
 
-const Products = ({ products, slug }: ProductsProps) => {
+const Products = ({ products }: ProductsProps) => {
   return (
     <div className="mt-3 space-y-3">
       {products.map((product) => (
-        <ProductItem key={product.id} product={product} slug={slug} />
+        <ProductItem key={product.id} product={product} />
       ))}
     </div>
   );

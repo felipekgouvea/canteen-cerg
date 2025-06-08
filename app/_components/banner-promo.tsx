@@ -1,5 +1,3 @@
-"use client";
-
 import Image from "next/image";
 
 interface BannerPromoProps {
@@ -7,18 +5,17 @@ interface BannerPromoProps {
   alt: string;
 }
 
-const BannerPromo = ({ src, alt }: BannerPromoProps) => {
+const BannerPromo = ({ alt, src }: BannerPromoProps) => {
   return (
-    <div className="relative h-32 w-full overflow-hidden rounded-lg sm:h-40 lg:h-52">
+    <div>
       <Image
         src={src}
         alt={alt}
-        fill
-        className="rounded-lg object-cover"
-        sizes="(max-width: 768px) 100vw,
-               (max-width: 1200px) 50vw,
-               33vw"
-        priority
+        height={0}
+        width={0}
+        className="h-auto w-full rounded-lg object-contain"
+        sizes="100vw"
+        quality={100}
       />
     </div>
   );

@@ -5,13 +5,12 @@ import Link from "next/link";
 
 interface ProductItemProps {
   product: Product;
-  slug?: string;
 }
 
-const ProductItem = ({ product, slug }: ProductItemProps) => {
+const ProductItemDetails = ({ product }: ProductItemProps) => {
   return (
     <Link
-      href={`/restaurant/${slug}/products/${product.id}`}
+      href={`/restaurant/canteen-cerg/products/${product.id}`}
       className="flex items-center justify-between gap-10 border-b py-3"
     >
       <div>
@@ -36,4 +35,4 @@ const ProductItem = ({ product, slug }: ProductItemProps) => {
   );
 };
 
-export default ProductItem;
+export default ProductItemDetails;
