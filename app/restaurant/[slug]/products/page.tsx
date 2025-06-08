@@ -41,7 +41,9 @@ const Products = () => {
   const handleClickProduct = (productId: string) => {
     const params = new URLSearchParams(Array.from(searchParams.entries()));
     params.delete("search");
-    router.push(`/product/${productId}?${params.toString()}`);
+    router.push(
+      `/restaurant/canteen-cerg/products/${productId}?${params.toString()}`,
+    );
   };
 
   return (
