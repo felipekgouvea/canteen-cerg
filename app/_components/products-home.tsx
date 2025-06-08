@@ -1,12 +1,9 @@
 "use client";
 
-import type { Product } from "@prisma/client";
-import { ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
-
-import { getProductsHome } from "../_actions/get-products-home";
-import ProductList from "./product-list";
-import { Button } from "./ui/button";
+import { Product } from "@prisma/client";
+import ProductItem from "./product-item";
+import { getHomeProducts } from "@/app/_actions/get-products-home";
 
 interface ProductsHomeProps {
   title: string;
@@ -14,37 +11,25 @@ interface ProductsHomeProps {
 
 const ProductsHome = ({ title }: ProductsHomeProps) => {
   const [products, setProducts] = useState<Product[]>([]);
-  const [error, setError] = useState(false);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getProductsHome();
-        setProducts(result || []);
-      } catch (err) {
-        console.error("Erro ao buscar produtos da home:", err);
-        setError(true);
-      }
-    };
+    async function load() {
+      const data = await getHomeProducts();
+      setProducts(data);
+    }
 
-    fetchData();
+    load();
   }, []);
 
-  if (error) return null;
-
   return (
-    <>
-      <div className="flex items-center justify-between">
-        <h2 className="font-bold">{title}</h2>
-        <Button className="text-[#EA1D2C]" size="sm" variant="link">
-          Ver todos
-          <ChevronRight />
-        </Button>
+    <div className="flex flex-col gap-4">
+      <h3 className="text-base font-semibold">{title}</h3>
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+        {products.map((product) => (
+          <ProductItem key={product.id} product={product} />
+        ))}
       </div>
-      <div className="overflow-x-auto [&::-webkit-scrollbar]:hidden [&::-webkit-scrollbar]:w-0">
-        <ProductList products={products} />
-      </div>
-    </>
+    </div>
   );
 };
 

@@ -6,14 +6,15 @@ import { Avatar, AvatarImage } from "@/app/_components/ui/avatar";
 import { Separator } from "@/app/_components/ui/separator";
 import { formatCurrency } from "@/helpers/format-currency";
 import type { OrderStatus, Prisma } from "@prisma/client";
-import { ChevronRightIcon } from "lucide-react";
+import { ChevronRightIcon, ClockIcon } from "lucide-react";
 import Link from "next/link";
+import { Badge } from "@/app/_components/ui/badge";
 
 interface OrderItemProps {
   order: Prisma.OrderGetPayload<{
     include: {
       restaurant: true;
-      products: {
+      orderProducts: {
         include: {
           product: true;
         };
@@ -22,43 +23,38 @@ interface OrderItemProps {
   }>;
 }
 
-const getOrderStatusLabel = (status: OrderStatus) => {
-  switch (status) {
-    case "PENDING":
-      return "Pagamento Pendente";
-    case "FINISHED":
-      return "Entregue";
-    case "PAYMENT_CONFIRMED":
-      return "Pagamento Confirmado";
-    case "PAYMENT_FAILED":
-      return "Pagamento falhou";
+const statusMap: Record<
+  OrderStatus,
+  {
+    label: string;
+    variant: "default" | "secondary" | "success" | "destructive" | "warning";
   }
-};
-
-const getOrderStatusLabelColors = (status: OrderStatus) => {
-  switch (status) {
-    case "PENDING":
-      return "bg-[#FFB101]";
-    case "FINISHED":
-      return "bg-green-500";
-    case "PAYMENT_CONFIRMED":
-      return "bg-green-500";
-    case "PAYMENT_FAILED":
-      return "bg-red-500";
-  }
+> = {
+  PENDING: { label: "Aguardando Pagamento", variant: "warning" },
+  PAYMENT_CONFIRMED: { label: "Pagamento Confirmado", variant: "success" },
+  IN_PREPARATION: { label: "Em Preparação", variant: "secondary" },
+  FINISHED: { label: "Entregue", variant: "success" },
+  CANCELLED: { label: "Cancelado", variant: "destructive" },
+  PAYMENT_FAILED: { label: "Pagamento Falhou", variant: "destructive" },
 };
 
 const OrderItem = ({ order }: OrderItemProps) => {
+  const status = statusMap[order.status];
+
   return (
     <Card>
       <CardContent className="p-5">
-        <div
-          className={`w-fit rounded-full ${getOrderStatusLabelColors(order.status)} px-2 py-1 text-muted-foreground text-white`}
+        {/* Status */}
+        <Badge
+          variant={status.variant}
+          className="mb-3 w-fit text-[10px] md:text-sm"
         >
-          <span>{getOrderStatusLabel(order.status)}</span>
-        </div>
+          <ClockIcon className="mr-1 h-3 w-3" />
+          {status.label}
+        </Badge>
 
-        <div className="mt-4 flex items-center justify-between">
+        {/* Header */}
+        <div className="mb-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Avatar className="h-6 w-6">
               <AvatarImage src={order.restaurant.avatarImageUrl} />
@@ -74,11 +70,12 @@ const OrderItem = ({ order }: OrderItemProps) => {
             </Link>
           </Button>
         </div>
-        <div className="py-3">
-          <Separator orientation="horizontal" />
-        </div>
-        <div className="space-y-3">
-          {order.products.map((productOrder) => (
+
+        <Separator />
+
+        {/* Produtos */}
+        <div className="my-3 space-y-3">
+          {order.orderProducts.map((productOrder) => (
             <div key={productOrder.id} className="flex items-center gap-2">
               <div className="flex h-5 w-5 items-center justify-center rounded-full bg-muted-foreground">
                 <span className="block text-xs text-white">
@@ -91,18 +88,20 @@ const OrderItem = ({ order }: OrderItemProps) => {
             </div>
           ))}
         </div>
-        <div className="py-3">
-          <Separator orientation="horizontal" />
-        </div>
 
+        <Separator className="mb-4" />
+
+        {/* Total e botão */}
         <div className="flex items-center justify-between">
-          <p className="text-sm">{formatCurrency(Number(order.total))}</p>
+          <p className="text-sm font-semibold">
+            {formatCurrency(Number(order.total))}
+          </p>
           <Button
             variant="link"
-            className={`text-primary ${order.status != "FINISHED" ? "hover:cursor-pointer" : ""}`}
-            disabled={order.status != "FINISHED"}
+            className="text-primary"
+            disabled={order.status !== "FINISHED"}
           >
-            Adicionar a sacola.
+            Adicionar à sacola
           </Button>
         </div>
       </CardContent>

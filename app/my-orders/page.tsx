@@ -18,7 +18,7 @@ const MyOrdersPage = async () => {
     },
     include: {
       restaurant: true,
-      products: {
+      orderProducts: {
         include: {
           product: true,
         },
@@ -29,13 +29,15 @@ const MyOrdersPage = async () => {
     },
   });
 
+  console.log(orders);
+
   return (
     <>
       <Header />
 
       <div className="px-5 py-6">
         <h2 className="mb-4 font-semibold">Meus Pedidos</h2>
-        <div className="space-y-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {orders.map((order) => (
             <OrderItem key={order.id} order={order} />
           ))}

@@ -99,7 +99,10 @@ const OrderCard = ({ order }: OrderCardProps) => {
       </CardHeader>
       <Separator />
       <CardContent className="mt-2 flex flex-col gap-3">
-        <Badge variant={statusMap[order.status].variant} className="w-fit">
+        <Badge
+          variant={statusMap[order.status].variant}
+          className="w-fit md:text-[10px]"
+        >
           <ClockIcon className="mr-1" size={12} />
           {statusMap[order.status].label}
         </Badge>

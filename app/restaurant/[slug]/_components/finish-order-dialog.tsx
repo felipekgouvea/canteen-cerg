@@ -37,6 +37,7 @@ import { CLASS } from "./class-select";
 import { getStudentByClass } from "@/app/_actions/get-student-by-class";
 import { createStripeCheckout } from "../products/actions/create-stripe-checkout";
 import { createOrder } from "@/app/_actions/create-order";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   studentId: z.string({ message: "O(a) aluno(a) é obrigatório(a)" }),
@@ -113,6 +114,7 @@ const FinishOrderDialog = ({ onOpenChange, open }: FinishOrderDialogProps) => {
         studentId: parseInt(formData.studentId),
         userId: data.user.id,
       });
+      toast.success("Pedido realizado com sucesso!");
 
       const { sessionId } = await createStripeCheckout({
         products,

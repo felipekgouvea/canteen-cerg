@@ -1,31 +1,42 @@
-import type { Product } from "@prisma/client";
+"use client";
+
+import { Product } from "@prisma/client";
 import Image from "next/image";
-
+import Link from "next/link";
 import { formatCurrency } from "@/helpers/format-currency";
-import { cn } from "@/lib/utils";
+import { Card, CardContent } from "./ui/card";
 
-interface ProductOrderProps {
+interface ProductItemProps {
   product: Product;
-  className?: string;
 }
 
-const ProductItem = ({ product, className }: ProductOrderProps) => {
+const ProductItem = ({ product }: ProductItemProps) => {
   return (
-    <div className={(cn("w-[150px] min-w-[150px] space-y-2"), className)}>
-      <div className="relative h-[100px] w-full bg-[#F2F2F2]">
-        <Image
-          src={product.imageUrl}
-          alt={product.name}
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="rounded-lg object-cover"
-        />
-      </div>
-      <div>
-        <h2 className="truncate text-sm">{product.name}</h2>
-        <h3 className="font-semibold">{formatCurrency(product.price)}</h3>
-      </div>
-    </div>
+    <Link href={`restaurant/canteen-cerg/products/${product.id}`}>
+      <Card className="h-full w-full transition-transform hover:scale-[1.01]">
+        <CardContent className="p-2 sm:p-4">
+          <div className="flex flex-col items-center">
+            <div className="relative h-32 w-32 sm:h-36 sm:w-36">
+              <Image
+                src={product.imageUrl}
+                alt={product.name}
+                fill
+                className="rounded-md object-cover"
+              />
+            </div>
+
+            <div className="mt-2 flex flex-col items-center gap-1 text-center">
+              <p className="text-sm font-semibold sm:text-base">
+                {product.name}
+              </p>
+              <span className="text-xs text-muted-foreground sm:text-sm">
+                {formatCurrency(product.price)}
+              </span>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </Link>
   );
 };
 

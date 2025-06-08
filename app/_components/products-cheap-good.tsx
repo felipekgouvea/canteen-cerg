@@ -1,53 +1,36 @@
 "use client";
 
-import type { Product } from "@prisma/client";
-import { ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Product } from "@prisma/client";
+import ProductItem from "./product-item";
+import { getCheaperProducts } from "@/app/_actions/get-cheaper-products";
 
-import { getTop10MostOrderedProductsByUser } from "../_actions/get-most-ordered-products-by-user";
-import ProductList from "./product-list";
-import { Button } from "./ui/button";
-
-interface ProductsCheapGoodProps {
+interface Props {
   title: string;
   userId: string;
 }
 
-const ProductsCheapGood = ({ title, userId }: ProductsCheapGoodProps) => {
+const ProductsCheapGood = ({ title, userId }: Props) => {
   const [products, setProducts] = useState<Product[]>([]);
-  const [error, setError] = useState(false);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getTop10MostOrderedProductsByUser(userId);
-        setProducts(result || []);
-      } catch (err) {
-        console.error("Erro ao buscar produtos mais pedidos:", err);
-        setError(true);
-      }
-    };
-
-    if (userId) {
-      fetchData();
+    async function load() {
+      const data = await getCheaperProducts();
+      setProducts(data);
     }
+
+    load();
   }, [userId]);
 
-  if (error) return null;
-
   return (
-    <>
-      <div className="flex items-center justify-between">
-        <h2 className="font-bold">{title}</h2>
-        <Button className="text-[#EA1D2C]" size="sm" variant="link">
-          Ver todos
-          <ChevronRight />
-        </Button>
+    <div className="flex flex-col gap-4">
+      <h3 className="text-base font-semibold">{title}</h3>
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+        {products.map((product) => (
+          <ProductItem key={product.id} product={product} />
+        ))}
       </div>
-      <div className="overflow-x-auto [&::-webkit-scrollbar]:hidden [&::-webkit-scrollbar]:w-0">
-        <ProductList products={products} />
-      </div>
-    </>
+    </div>
   );
 };
 

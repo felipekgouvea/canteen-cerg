@@ -31,10 +31,10 @@ export const createStripeCheckout = async ({
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
     mode: "payment",
-    success_url: "https://localhost:3000/",
-    cancel_url: "https://localhost:3000/",
+    success_url: "http://localhost:3000/my-orders",
+    cancel_url: "http://localhost:3000/my-orders",
     metadata: {
-      orderId,
+      orderId: orderId.toString(),
     },
     line_items: products.map((product) => ({
       price_data: {

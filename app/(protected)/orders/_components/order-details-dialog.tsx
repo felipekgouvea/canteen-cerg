@@ -87,7 +87,7 @@ const statusMap: Record<
   IN_PREPARATION: { label: "Em Preparação", variant: "secondary" },
   PAYMENT_CONFIRMED: { label: "Pagamento Confirmado", variant: "success" },
   PAYMENT_FAILED: { label: "Pagamento Falhou", variant: "destructive" },
-  FINISHED: { label: "Entregue", variant: "success" },
+  FINISHED: { label: "Entregar", variant: "success" },
   CANCELLED: { label: "Cancelado", variant: "destructive" },
 };
 

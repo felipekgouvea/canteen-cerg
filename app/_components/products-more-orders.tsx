@@ -1,50 +1,35 @@
 "use client";
 
-import type { Product } from "@prisma/client";
-import { ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Product } from "@prisma/client";
+import ProductItem from "./product-item";
+import { getMostOrderedProducts } from "@/app/_actions/get-most-ordered-products";
 
-import { getCheaperProducts } from "../_actions/get-cheaper-products";
-import ProductList from "./product-list";
-import { Button } from "./ui/button";
-
-interface ProductsMoreOrdersProps {
+interface Props {
   title: string;
 }
 
-const ProductsMoreOrders = ({ title }: ProductsMoreOrdersProps) => {
+const ProductsMoreOrders = ({ title }: Props) => {
   const [products, setProducts] = useState<Product[]>([]);
-  const [error, setError] = useState(false);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getCheaperProducts();
-        setProducts(result || []);
-      } catch (err) {
-        console.error("Erro ao buscar produtos baratos:", err);
-        setError(true);
-      }
-    };
+    async function load() {
+      const data = await getMostOrderedProducts();
+      setProducts(data);
+    }
 
-    fetchData();
+    load();
   }, []);
 
-  if (error) return null;
-
   return (
-    <>
-      <div className="flex items-center justify-between">
-        <h2 className="font-bold">{title}</h2>
-        <Button className="text-[#EA1D2C]" size="sm" variant="link">
-          Ver todos
-          <ChevronRight />
-        </Button>
+    <div className="mb-5 flex flex-col gap-4">
+      <h3 className="text-base font-semibold">{title}</h3>
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+        {products.map((product) => (
+          <ProductItem key={product.id} product={product} />
+        ))}
       </div>
-      <div className="overflow-x-auto [&::-webkit-scrollbar]:hidden [&::-webkit-scrollbar]:w-0">
-        <ProductList products={products} />
-      </div>
-    </>
+    </div>
   );
 };
 
