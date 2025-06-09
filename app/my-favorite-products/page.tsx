@@ -1,15 +1,16 @@
-import { getServerSession } from "next-auth";
-import { notFound } from "next/navigation";
+import { getServerSession } from "next-auth/next";
+import type { Session } from "next-auth";
+import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth";
 import ProductItem from "../_components/product-item";
 import Header from "../_components/header";
 import { db } from "@/lib/prisma";
 
 const MyFavoritePage = async () => {
-  const session = await getServerSession(authOptions);
+  const session: Session | null = await getServerSession(authOptions);
 
-  if (!session) {
-    return notFound();
+  if (!session?.user) {
+    redirect("/authentication");
   }
 
   const userFavoriteProducts = await db.userFavoriteProduct.findMany({
@@ -29,11 +30,7 @@ const MyFavoritePage = async () => {
         <div className="flex w-full flex-col gap-6">
           {userFavoriteProducts.length > 0 ? (
             userFavoriteProducts.map(({ product }) => (
-              <ProductItem
-                key={product.id}
-                product={product}
-                className="min-w-full max-w-full"
-              />
+              <ProductItem key={product.id} product={product} />
             ))
           ) : (
             <h3 className="font-medium">

@@ -3,6 +3,7 @@ import { db } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
+// Validação do corpo
 const patchStatusSchema = z.object({
   status: z.enum([
     "PENDING",
@@ -14,13 +15,12 @@ const patchStatusSchema = z.object({
   ]),
 });
 
-export async function PATCH(
-  request: Request,
-  context: { params: { id: string } },
-) {
+/* eslint-disable @typescript-eslint/no-explicit-any */
+export async function PATCH(request: Request, context: any) {
   const { id } = context.params;
 
   const body = await request.json();
+
   const parsed = patchStatusSchema.safeParse(body);
 
   if (!parsed.success) {

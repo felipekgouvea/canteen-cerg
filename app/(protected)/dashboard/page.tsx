@@ -1,9 +1,10 @@
+import { getServerSession } from "next-auth/next";
+import type { Session } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
 const DashboardPage = async () => {
-  const session = await getServerSession(authOptions);
+  const session: Session | null = await getServerSession(authOptions);
 
   if (!session?.user) {
     redirect("/authentication");

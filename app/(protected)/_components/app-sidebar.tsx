@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { redirect, usePathname, useRouter } from "next/navigation";
 
 import {
   Avatar,
@@ -73,9 +73,9 @@ export function AppSidebar() {
   const { data } = useSession();
   const pathname = usePathname();
 
-  // if (!data?.user) {
-  //   return redirect("/authentication");
-  // }
+  if (!data?.user) {
+    return redirect("/authentication");
+  }
 
   const handleSignOut = async () => {
     await signOut();
@@ -142,7 +142,7 @@ export function AppSidebar() {
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton size="lg">
                   <Avatar>
-                    <AvatarImage src={data?.user.image as string} />
+                    <AvatarImage src={data?.user?.image as string} />
                     <AvatarFallback>F</AvatarFallback>
                   </Avatar>
                   <div className="flex flex-col gap-[0.1rem]">

@@ -8,7 +8,8 @@ import {
   PageActions,
 } from "@/app/_components/ui/page-container";
 import { Button } from "@/app/_components/ui/button";
-import { getServerSession } from "next-auth";
+import { getServerSession } from "next-auth/next";
+import type { Session } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/prisma";
@@ -16,7 +17,7 @@ import { DataTable } from "../_components/data-table";
 import { studentsColumns } from "./_data-table/studentsColumns";
 
 const StudentsPage = async () => {
-  const session = await getServerSession(authOptions);
+  const session: Session | null = await getServerSession(authOptions);
 
   if (!session?.user) {
     redirect("/authentication");
