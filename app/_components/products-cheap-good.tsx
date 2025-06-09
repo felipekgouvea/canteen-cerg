@@ -26,9 +26,8 @@ const ProductsCheapGood = async ({ title, userId }: Props) => {
       </div>
     );
   } catch (error) {
-    return (
-      <ErrorMessage message="Não foi possível carregar os produtos" />
-    );
+    console.log(error);
+    return <ErrorMessage message="Não foi possível carregar os produtos" />;
   }
 };
 

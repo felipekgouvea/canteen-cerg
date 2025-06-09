@@ -4,11 +4,10 @@ interface ErrorMessageProps {
 
 const ErrorMessage = ({ message }: ErrorMessageProps) => {
   return (
-    <p className="text-sm text-destructive-foreground bg-destructive/10 p-2 rounded-md">
+    <p className="rounded-md bg-destructive p-2 text-sm text-destructive-foreground">
       {message}
     </p>
   );
 };
 
 export default ErrorMessage;
-
