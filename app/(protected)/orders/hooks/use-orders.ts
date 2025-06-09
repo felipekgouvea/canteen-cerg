@@ -3,11 +3,25 @@
 import useSWR from "swr";
 import { ordersSchema, type Order } from "@/lib/schemas/order";
 import { useSearchParams } from "next/navigation";
+import { DATABASE_ERROR_MESSAGE } from "@/lib/errors";
 
 const fetcher = async (url: string): Promise<Order[]> => {
-  const response = await fetch(url);
-  const data = await response.json();
-  return ordersSchema.parse(data);
+  try {
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      const data = await response.json().catch(() => null);
+      const message = data?.error || DATABASE_ERROR_MESSAGE;
+      throw new Error(message);
+    }
+
+    const data = await response.json();
+    return ordersSchema.parse(data);
+  } catch (err) {
+    throw new Error(
+      err instanceof Error ? err.message : DATABASE_ERROR_MESSAGE
+    );
+  }
 };
 
 export const useOrders = () => {

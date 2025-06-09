@@ -21,7 +21,7 @@ const ProductItem = ({ product }: ProductItemProps) => {
                 src={product.imageUrl}
                 alt={product.name}
                 fill
-                className="rounded-md object-cover"
+                className="rounded-md object-contain"
               />
             </div>
 

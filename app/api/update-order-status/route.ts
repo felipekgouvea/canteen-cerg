@@ -1,5 +1,6 @@
 import { updateOrderStatus } from "@/app/_actions/update-order-status";
 import { NextResponse } from "next/server";
+import { DATABASE_ERROR_MESSAGE } from "@/lib/errors";
 
 export async function POST(req: Request) {
   const formData = await req.formData();
@@ -19,7 +20,7 @@ export async function POST(req: Request) {
   } catch (error) {
     console.log(error);
     return NextResponse.json(
-      { error: "Erro ao atualizar status" },
+      { error: DATABASE_ERROR_MESSAGE },
       { status: 500 },
     );
   }

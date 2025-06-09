@@ -7,9 +7,9 @@ import Image from "next/image";
 import { useContext, useState } from "react";
 
 import logoAvatar from "@/public/logo-avatar.png";
-import Products from "@/app/restaurant/[slug]/products/_components/products";
 import CartBanner from "./cart-banner";
 import { CartContext } from "@/app/contexts/cart";
+import ProductsDetails from "@/app/restaurant/[slug]/products/_components/products-details";
 
 interface RestaurantCategoriesProps {
   restaurant: Prisma.RestaurantGetPayload<{
@@ -80,7 +80,7 @@ const RestaurantCategories = ({ restaurant }: RestaurantCategoriesProps) => {
       </div>
       <h3 className="pt-5 font-semibold">{selectedCategory.name}</h3>
       {restaurantIsOpen ? (
-        <Products products={selectedCategory.products} slug={restaurant.slug} />
+        <ProductsDetails products={selectedCategory.products} />
       ) : (
         <div className="flex h-auto w-full flex-col items-center justify-center space-y-4 p-6">
           <span className="text-center text-sm">
