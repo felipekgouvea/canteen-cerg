@@ -1,5 +1,6 @@
 import { db } from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
+import { DATABASE_ERROR_MESSAGE } from "@/lib/errors";
 import { OrderStatus } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -63,33 +64,47 @@ export async function GET(req: NextRequest) {
     };
   }
 
-  const orders = await db.order.findMany({
-    where: whereClause,
-    include: {
-      user: { select: { name: true } },
-      student: {
-        select: {
-          name: true,
-          imageURL: true,
-          serie: { select: { name: true } },
+  try {
+    const orders = await db.order.findMany({
+      where: whereClause,
+      include: {
+        user: { select: { name: true } },
+        student: {
+          select: {
+            name: true,
+            imageURL: true,
+            serie: { select: { name: true } },
+          },
         },
-      },
-      orderProducts: {
-        select: {
-          quantity: true,
-          product: {
-            select: {
-              name: true,
-              id: true,
+        orderProducts: {
+          select: {
+            quantity: true,
+            product: {
+              select: {
+                name: true,
+                id: true,
+              },
             },
           },
         },
       },
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
 
-  return NextResponse.json(orders);
+    return NextResponse.json(orders);
+  } catch (error) {
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError ||
+      error instanceof Prisma.PrismaClientInitializationError ||
+      error instanceof Prisma.PrismaClientRustPanicError
+    ) {
+      return NextResponse.json(
+        { error: DATABASE_ERROR_MESSAGE },
+        { status: 500 },
+      );
+    }
+    throw error;
+  }
 }

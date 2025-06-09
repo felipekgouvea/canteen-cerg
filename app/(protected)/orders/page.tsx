@@ -11,12 +11,13 @@ import {
 import OrderCard from "./_components/order-card";
 import { useOrders } from "./hooks/use-orders";
 import { Skeleton } from "@/app/_components/ui/skeleton";
+import ErrorMessage from "@/app/_components/error-message";
 // import { useSession } from "next-auth/react";
 // import { redirect } from "next/navigation";
 import { OrdersFilterBar } from "./_components/orders-filter-bar";
 
 const OrdersPage = () => {
-  const { orders, isLoading } = useOrders();
+  const { orders, isLoading, isError } = useOrders();
   // const { data: session } = useSession();
 
   // if (!session?.user) {
@@ -35,6 +36,8 @@ const OrdersPage = () => {
       <PageContent>
         {isLoading ? (
           <Skeleton className="h-[200px] w-[200px]" />
+        ) : isError ? (
+          <ErrorMessage message="Não foi possível carregar os pedidos" />
         ) : orders.length === 0 ? (
           <p className="text-sm text-muted-foreground">
             Nenhum pedido encontrado hoje.
