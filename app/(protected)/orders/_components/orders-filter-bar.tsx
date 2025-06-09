@@ -60,7 +60,7 @@ export function OrdersFilterBar() {
       <div className="flex w-full flex-col gap-2 sm:flex-row sm:items-center">
         {/* Status Filter */}
         <Select
-          defaultValue={selectedStatus}
+          value={selectedStatus}
           onValueChange={(value) => updateQuery("status", value)}
         >
           <SelectTrigger className="w-full sm:w-56">
@@ -77,7 +77,7 @@ export function OrdersFilterBar() {
 
         {/* Serie Filter */}
         <Select
-          defaultValue={selectedSerie}
+          value={selectedSerie}
           onValueChange={(value) => updateQuery("serie", value)}
         >
           <SelectTrigger className="w-full sm:w-56">
