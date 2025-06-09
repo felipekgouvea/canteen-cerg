@@ -1,9 +1,22 @@
 "use server";
 
 import { db } from "@/lib/prisma";
+import { Prisma } from "@prisma/client";
+import { DATABASE_ERROR_MESSAGE } from "@/lib/errors";
 
 export const getRestaurantBySlug = async (slug: string) => {
-  const restaurant = await db.restaurant.findUnique({ where: { slug } });
+  try {
+    const restaurant = await db.restaurant.findUnique({ where: { slug } });
 
-  return restaurant;
+    return restaurant;
+  } catch (error) {
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError ||
+      error instanceof Prisma.PrismaClientInitializationError ||
+      error instanceof Prisma.PrismaClientRustPanicError
+    ) {
+      throw new Error(DATABASE_ERROR_MESSAGE);
+    }
+    throw error;
+  }
 };
