@@ -2,6 +2,8 @@
 
 import { revalidatePath } from "next/cache";
 import { db } from "@/lib/prisma";
+import { Prisma } from "@prisma/client";
+import { DATABASE_ERROR_MESSAGE } from "@/lib/errors";
 
 interface CreateOrderInput {
   products: Array<{
@@ -15,29 +17,29 @@ interface CreateOrderInput {
 
 export const createOrder = async (input: CreateOrderInput) => {
   const { restaurantId, studentId, userId, products } = input;
-
-  // 1. Verifica se o restaurante existe
-  const restaurant = await db.restaurant.findUnique({
-    where: { id: restaurantId },
-  });
+  try {
+    // 1. Verifica se o restaurante existe
+    const restaurant = await db.restaurant.findUnique({
+      where: { id: restaurantId },
+    });
 
   if (!restaurant) {
     throw new Error("Restaurante não encontrado.");
   }
 
   // 2. Busca os produtos e monta um Map para acesso rápido
-  const dbProducts = await db.product.findMany({
-    where: {
-      id: {
-        in: products.map((p) => p.id),
+    const dbProducts = await db.product.findMany({
+      where: {
+        id: {
+          in: products.map((p) => p.id),
+        },
       },
-    },
-  });
+    });
 
-  const priceMap = new Map(dbProducts.map((p) => [p.id, p.price]));
+    const priceMap = new Map(dbProducts.map((p) => [p.id, p.price]));
 
   // 3. Monta os dados com quantidade e preço
-  const orderItems = products.map(({ id, quantity }) => {
+    const orderItems = products.map(({ id, quantity }) => {
     const price = priceMap.get(id);
     if (price === undefined) {
       throw new Error(`Produto com id ${id} não encontrado.`);
@@ -50,13 +52,13 @@ export const createOrder = async (input: CreateOrderInput) => {
   });
 
   // 4. Calcula total
-  const total = orderItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0,
-  );
+    const total = orderItems.reduce(
+      (sum, item) => sum + item.price * item.quantity,
+      0,
+    );
 
   // 5. Cria o pedido
-  const order = await db.order.create({
+    const order = await db.order.create({
     data: {
       status: "PENDING",
       restaurantId,
@@ -72,7 +74,17 @@ export const createOrder = async (input: CreateOrderInput) => {
   });
 
   // 6. Revalida cache da página do cliente
-  revalidatePath("/my-orders");
+    revalidatePath("/my-orders");
 
-  return order;
+    return order;
+  } catch (error) {
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError ||
+      error instanceof Prisma.PrismaClientInitializationError ||
+      error instanceof Prisma.PrismaClientRustPanicError
+    ) {
+      throw new Error(DATABASE_ERROR_MESSAGE);
+    }
+    throw error;
+  }
 };
