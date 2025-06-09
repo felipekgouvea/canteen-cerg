@@ -19,7 +19,7 @@ const CartProductItem = ({ product }: CartItemProps) => {
           src={product.imageUrl}
           alt={product.name}
           fill
-          className="rounded-lg object-cover"
+          className="rounded-lg object-contain"
         />
       </div>
       <div className="flex w-full items-center justify-between">

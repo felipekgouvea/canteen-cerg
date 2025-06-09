@@ -2,6 +2,7 @@ import { db } from "@/lib/prisma";
 // import { buffer } from "micro";
 import Stripe from "stripe";
 import { NextResponse } from "next/server";
+import { DATABASE_ERROR_MESSAGE } from "@/lib/errors";
 
 // Inicializa o Stripe com sua chave secreta
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -43,10 +44,18 @@ export async function POST(req: Request) {
     const orderId = session.metadata?.orderId;
 
     if (orderId) {
-      await db.order.update({
-        where: { id: parseInt(orderId) },
-        data: { status: "PAYMENT_CONFIRMED" },
-      });
+      try {
+        await db.order.update({
+          where: { id: parseInt(orderId) },
+          data: { status: "PAYMENT_CONFIRMED" },
+        });
+      } catch (error) {
+        console.error(error);
+        return NextResponse.json(
+          { error: DATABASE_ERROR_MESSAGE },
+          { status: 500 },
+        );
+      }
     }
   }
 
@@ -55,10 +64,18 @@ export async function POST(req: Request) {
     const orderId = session.metadata?.orderId;
 
     if (orderId) {
-      await db.order.update({
-        where: { id: parseInt(orderId) },
-        data: { status: "PAYMENT_FAILED" },
-      });
+      try {
+        await db.order.update({
+          where: { id: parseInt(orderId) },
+          data: { status: "PAYMENT_FAILED" },
+        });
+      } catch (error) {
+        console.error(error);
+        return NextResponse.json(
+          { error: DATABASE_ERROR_MESSAGE },
+          { status: 500 },
+        );
+      }
     }
   }
 
