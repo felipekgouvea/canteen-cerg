@@ -1,8 +1,9 @@
 "use server";
 
+import type { Product } from "@prisma/client";
 import { db } from "@/lib/prisma";
 
-export async function getCheaperProducts() {
+export async function getCheaperProducts(): Promise<Product[]> {
   return db.product.findMany({
     where: {
       price: {
