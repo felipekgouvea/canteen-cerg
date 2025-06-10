@@ -13,7 +13,13 @@ export const authOptions: AuthOptions = {
     }),
   ],
   callbacks: {
-    async session({ session, user }: { session: Session; user: User }): Promise<Session> {
+    async session({
+      session,
+      user,
+    }: {
+      session: Session;
+      user: User;
+    }): Promise<Session> {
       session.user = { ...session.user, id: user.id };
       return session;
     },
