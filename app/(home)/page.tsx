@@ -1,7 +1,7 @@
-import { getFirstName } from "@/helpers/first-name";
+import { getFirstName } from "@/helpers/firts-name";
 import { authOptions } from "@/app/_lib/auth";
 import { Session } from "next-auth";
-import { formatDateBRWithTime } from "@/helpers/format-date-br-with-time";
+import { formatDateBRWithTime } from "@/helpers/format-date-br";
 import ProductsCheapGood from "@/app/_components/products-cheap-good";
 import ProductsHome from "@/app/_components/products-home";
 import ProductsMoreOrders from "@/app/_components/products-more-orders";
@@ -14,7 +14,7 @@ import Search from "@/app/_components/search";
 import { getServerSession } from "next-auth/next";
 
 const HomePage = async () => {
-  const session = await getServerSession(authOptions);
+  const session = (await getServerSession(authOptions)) as Session | null;
   const userId = session?.user?.id ?? null;
   const dataAtual = new Date();
 
