@@ -2,10 +2,13 @@ import { getFirstName } from "@/helpers/firts-name";
 <<<<<<< HEAD
 import { authOptions } from "@/app/_lib/auth";
 import { Session } from "next-auth";
+<<<<<<< HEAD
 =======
 import { authOptions } from "@/lib/auth";
 >>>>>>> 09d35c4e487de264fd3ec5e109851129e5fed99a
 
+=======
+>>>>>>> development
 import { formatDateBRWithTime } from "@/helpers/format-date-br";
 import ProductsCheapGood from "@/app/_components/products-cheap-good";
 import ProductsHome from "@/app/_components/products-home";

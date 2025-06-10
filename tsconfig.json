@@ -30,13 +30,22 @@
     ]
   },
   "include": [
-    "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
+<<<<<<< HEAD
     ".next/types/**/*.ts",
     "types/**/*.d.ts"
+=======
+    "next-env.d.ts",
+    "types/next-auth.d.ts",
+    ".next/types/**/*.ts"
+>>>>>>> development
   ],
   "exclude": [
     "node_modules"
+  ],
+  "typeRoots": [
+    "./app/types",
+    "./node_modules/@types"
   ]
 }

@@ -116,6 +116,8 @@ const FinishOrderDialog = ({ onOpenChange, open }: FinishOrderDialogProps) => {
       });
       toast.success("Pedido realizado com sucesso!");
 
+      console.log(order);
+
       const { sessionId } = await createStripeCheckout({
         products,
         orderId: order.id,
