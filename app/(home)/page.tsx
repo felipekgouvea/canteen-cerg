@@ -1,5 +1,9 @@
 import { getFirstName } from "@/helpers/firts-name";
 import { authOptions } from "@/lib/auth";
+<<<<<<< HEAD
+=======
+import { Session } from "next-auth";
+>>>>>>> 81aee72ad5c797248f6d218f3d1dba0305a24c92
 
 import { formatDateBRWithTime } from "@/helpers/format-date-br";
 import ProductsCheapGood from "@/app/_components/products-cheap-good";
@@ -12,10 +16,16 @@ import Footer from "@/app/_components/footer";
 import Header from "@/app/_components/header";
 import Search from "@/app/_components/search";
 import { getServerSession } from "next-auth/next";
+<<<<<<< HEAD
 import { Session } from "next-auth";
 
 const HomePage = async () => {
   const session = (await getServerSession(authOptions)) as Session;
+=======
+
+const HomePage = async () => {
+  const session = (await getServerSession(authOptions)) as Session | null;
+>>>>>>> 81aee72ad5c797248f6d218f3d1dba0305a24c92
   const userId = session?.user?.id ?? null;
   const dataAtual = new Date();
 
