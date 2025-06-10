@@ -29,11 +29,7 @@ const MyFavoritePage = async () => {
         <div className="flex w-full flex-col gap-6">
           {userFavoriteProducts.length > 0 ? (
             userFavoriteProducts.map(({ product }) => (
-              <ProductItem
-                key={product.id}
-                product={product}
-                className="min-w-full max-w-full"
-              />
+              <ProductItem key={product.id} product={product} />
             ))
           ) : (
             <h3 className="font-medium">

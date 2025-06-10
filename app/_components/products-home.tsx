@@ -22,9 +22,8 @@ const ProductsHome = async ({ title }: ProductsHomeProps) => {
       </div>
     );
   } catch (err) {
-    return (
-      <ErrorMessage message="Não foi possível carregar os produtos" />
-    );
+    console.log(err);
+    return <ErrorMessage message="Não foi possível carregar os produtos" />;
   }
 };
 
