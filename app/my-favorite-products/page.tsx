@@ -1,22 +1,16 @@
-<<<<<<< HEAD
 import { getServerSession } from "next-auth";
 import { notFound } from "next/navigation";
 import { authOptions } from "@/app/_lib/auth";
-=======
-import { getServerSession } from "next-auth/next";
-import type { Session } from "next-auth";
-import { redirect } from "next/navigation";
-import { authOptions } from "@/lib/auth";
->>>>>>> 09d35c4e487de264fd3ec5e109851129e5fed99a
 import ProductItem from "../_components/product-item";
 import Header from "../_components/header";
 import { db } from "@/app/_lib/prisma";
+import { Session } from "next-auth";
 
 const MyFavoritePage = async () => {
   const session: Session | null = await getServerSession(authOptions);
 
-  if (!session?.user) {
-    redirect("/authentication");
+  if (!session) {
+    return notFound();
   }
 
   const userFavoriteProducts = await db.userFavoriteProduct.findMany({

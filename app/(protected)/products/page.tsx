@@ -7,14 +7,9 @@ import {
   PageTitle,
 } from "@/app/_components/ui/page-container";
 import { PageDescription } from "@/app/_components/ui/page-container";
-<<<<<<< HEAD
 import { authOptions } from "@/app/_lib/auth";
-import { getServerSession } from "next-auth";
-=======
-import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth/next";
 import type { Session } from "next-auth";
->>>>>>> 09d35c4e487de264fd3ec5e109851129e5fed99a
 import { redirect } from "next/navigation";
 import AddProductDialog from "./_components/add-product-dialog";
 import { DataTable } from "../_components/data-table";

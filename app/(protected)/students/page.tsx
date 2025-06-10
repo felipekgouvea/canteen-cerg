@@ -8,18 +8,13 @@ import {
   PageActions,
 } from "@/app/_components/ui/page-container";
 import { Button } from "@/app/_components/ui/button";
-<<<<<<< HEAD
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/_lib/auth";
-=======
 import { getServerSession } from "next-auth/next";
 import type { Session } from "next-auth";
-import { authOptions } from "@/lib/auth";
->>>>>>> 09d35c4e487de264fd3ec5e109851129e5fed99a
 import { redirect } from "next/navigation";
 import { db } from "@/app/_lib/prisma";
 import { DataTable } from "../_components/data-table";
 import { studentsColumns } from "./_data-table/studentsColumns";
+import { authOptions } from "@/app/_lib/auth";
 
 const StudentsPage = async () => {
   const session: Session | null = await getServerSession(authOptions);

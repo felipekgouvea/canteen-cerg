@@ -1,11 +1,6 @@
-<<<<<<< HEAD
 import { authOptions } from "@/app/_lib/auth";
-import { getServerSession } from "next-auth";
-=======
 import { getServerSession } from "next-auth/next";
 import type { Session } from "next-auth";
-import { authOptions } from "@/lib/auth";
->>>>>>> 09d35c4e487de264fd3ec5e109851129e5fed99a
 import { redirect } from "next/navigation";
 
 const DashboardPage = async () => {
