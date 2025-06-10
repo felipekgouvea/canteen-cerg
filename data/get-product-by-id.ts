@@ -1,6 +1,6 @@
 "use server";
 
-import { db } from "@/lib/prisma";
+import { db } from "@/app/_lib/prisma";
 
 export const getProductById = async (productId: string) => {
   const product = await db.product.findUnique({

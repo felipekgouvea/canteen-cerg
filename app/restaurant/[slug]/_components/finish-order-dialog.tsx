@@ -105,14 +105,14 @@ const FinishOrderDialog = ({ onOpenChange, open }: FinishOrderDialogProps) => {
   // };
 
   const handleFinishOrder = async (formData: FormSchema) => {
-    if (!data?.user.id) return;
+    if (!data?.user?.id) return;
     try {
       setIsSubmitLoading(true);
       const order = await createOrder({
         products,
         restaurantId: "cc66275d-0dc1-44f8-833e-b5711edb6bf4",
         studentId: parseInt(formData.studentId),
-        userId: data.user.id,
+        userId: data.user.id as string,
       });
       toast.success("Pedido realizado com sucesso!");
 

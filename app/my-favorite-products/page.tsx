@@ -1,9 +1,9 @@
 import { getServerSession } from "next-auth";
 import { notFound } from "next/navigation";
-import { authOptions } from "@/lib/auth";
+import { authOptions } from "@/app/_lib/auth";
 import ProductItem from "../_components/product-item";
 import Header from "../_components/header";
-import { db } from "@/lib/prisma";
+import { db } from "@/app/_lib/prisma";
 
 const MyFavoritePage = async () => {
   const session = await getServerSession(authOptions);

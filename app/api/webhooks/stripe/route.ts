@@ -1,8 +1,8 @@
-import { db } from "@/lib/prisma";
+import { db } from "@/app/_lib/prisma";
 // import { buffer } from "micro";
 import Stripe from "stripe";
 import { NextResponse } from "next/server";
-import { DATABASE_ERROR_MESSAGE } from "@/lib/errors";
+import { DATABASE_ERROR_MESSAGE } from "@/app/_lib/errors";
 
 // Inicializa o Stripe com sua chave secreta
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {

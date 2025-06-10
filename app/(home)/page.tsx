@@ -1,5 +1,5 @@
 import { getFirstName } from "@/helpers/firts-name";
-import { authOptions } from "@/lib/auth";
+import { authOptions } from "@/app/_lib/auth";
 import { Session } from "next-auth";
 
 import { formatDateBRWithTime } from "@/helpers/format-date-br";

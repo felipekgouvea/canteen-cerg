@@ -1,5 +1,5 @@
 // app/api/orders/[id]/status/route.ts
-import { db } from "@/lib/prisma";
+import { db } from "@/app/_lib/prisma";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 

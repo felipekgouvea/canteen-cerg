@@ -1,10 +1,10 @@
 "use server";
 
-import { db } from "@/lib/prisma";
+import { db } from "@/app/_lib/prisma";
 import { upsertProductSchema, type UpsertProductSchema } from "./schema";
 import { revalidatePath } from "next/cache";
 import { Prisma } from "@prisma/client";
-import { DATABASE_ERROR_MESSAGE } from "@/lib/errors";
+import { DATABASE_ERROR_MESSAGE } from "@/app/_lib/errors";
 
 export const upsertProduct = async (data: UpsertProductSchema) => {
   upsertProductSchema.parse(data);

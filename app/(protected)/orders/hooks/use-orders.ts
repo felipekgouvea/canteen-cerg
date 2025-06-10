@@ -1,9 +1,9 @@
 "use client";
 
 import useSWR from "swr";
-import { ordersSchema, type Order } from "@/lib/schemas/order";
+import { ordersSchema, type Order } from "@/app/_lib/schemas/order";
 import { useSearchParams } from "next/navigation";
-import { DATABASE_ERROR_MESSAGE } from "@/lib/errors";
+import { DATABASE_ERROR_MESSAGE } from "@/app/_lib/errors";
 
 const fetcher = async (url: string): Promise<Order[]> => {
   try {
@@ -19,7 +19,7 @@ const fetcher = async (url: string): Promise<Order[]> => {
     return ordersSchema.parse(data);
   } catch (err) {
     throw new Error(
-      err instanceof Error ? err.message : DATABASE_ERROR_MESSAGE
+      err instanceof Error ? err.message : DATABASE_ERROR_MESSAGE,
     );
   }
 };

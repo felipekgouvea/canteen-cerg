@@ -1,9 +1,9 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { db } from "@/lib/prisma";
+import { db } from "@/app/_lib/prisma";
 import { Prisma } from "@prisma/client";
-import { DATABASE_ERROR_MESSAGE } from "@/lib/errors";
+import { DATABASE_ERROR_MESSAGE } from "@/app/_lib/errors";
 
 interface CreateOrderInput {
   products: Array<{
@@ -23,11 +23,11 @@ export const createOrder = async (input: CreateOrderInput) => {
       where: { id: restaurantId },
     });
 
-  if (!restaurant) {
-    throw new Error("Restaurante não encontrado.");
-  }
+    if (!restaurant) {
+      throw new Error("Restaurante não encontrado.");
+    }
 
-  // 2. Busca os produtos e monta um Map para acesso rápido
+    // 2. Busca os produtos e monta um Map para acesso rápido
     const dbProducts = await db.product.findMany({
       where: {
         id: {
@@ -38,42 +38,42 @@ export const createOrder = async (input: CreateOrderInput) => {
 
     const priceMap = new Map(dbProducts.map((p) => [p.id, p.price]));
 
-  // 3. Monta os dados com quantidade e preço
+    // 3. Monta os dados com quantidade e preço
     const orderItems = products.map(({ id, quantity }) => {
-    const price = priceMap.get(id);
-    if (price === undefined) {
-      throw new Error(`Produto com id ${id} não encontrado.`);
-    }
-    return {
-      productId: id,
-      quantity,
-      price,
-    };
-  });
+      const price = priceMap.get(id);
+      if (price === undefined) {
+        throw new Error(`Produto com id ${id} não encontrado.`);
+      }
+      return {
+        productId: id,
+        quantity,
+        price,
+      };
+    });
 
-  // 4. Calcula total
+    // 4. Calcula total
     const total = orderItems.reduce(
       (sum, item) => sum + item.price * item.quantity,
       0,
     );
 
-  // 5. Cria o pedido
+    // 5. Cria o pedido
     const order = await db.order.create({
-    data: {
-      status: "PENDING",
-      restaurantId,
-      studentId,
-      userId,
-      total, // em centavos
-      orderProducts: {
-        createMany: {
-          data: orderItems,
+      data: {
+        status: "PENDING",
+        restaurantId,
+        studentId,
+        userId,
+        total, // em centavos
+        orderProducts: {
+          createMany: {
+            data: orderItems,
+          },
         },
       },
-    },
-  });
+    });
 
-  // 6. Revalida cache da página do cliente
+    // 6. Revalida cache da página do cliente
     revalidatePath("/my-orders");
 
     return order;

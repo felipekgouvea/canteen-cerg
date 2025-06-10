@@ -1,5 +1,5 @@
-import { authOptions } from "@/lib/auth";
-import { db } from "@/lib/prisma";
+import { authOptions } from "@/app/_lib/auth";
+import { db } from "@/app/_lib/prisma";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import Header from "../_components/header";

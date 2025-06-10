@@ -2,9 +2,9 @@
 
 import type { Product } from "@prisma/client";
 
-import { db } from "@/lib/prisma";
+import { db } from "@/app/_lib/prisma";
 import { Prisma } from "@prisma/client";
-import { DATABASE_ERROR_MESSAGE } from "@/lib/errors";
+import { DATABASE_ERROR_MESSAGE } from "@/app/_lib/errors";
 
 export async function getTop10MostOrderedProductsByUser(
   userId: string,
@@ -15,18 +15,18 @@ export async function getTop10MostOrderedProductsByUser(
       where: {
         order: {
           userId,
+        },
       },
-    },
-    _count: {
-      productId: true,
-    },
-    orderBy: {
       _count: {
-        productId: "desc",
+        productId: true,
       },
-    },
-    take: 10,
-  });
+      orderBy: {
+        _count: {
+          productId: "desc",
+        },
+      },
+      take: 10,
+    });
 
     const productIds = result.map((item) => item.productId);
 

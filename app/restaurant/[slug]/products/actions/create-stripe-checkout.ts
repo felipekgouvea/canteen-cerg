@@ -3,7 +3,7 @@
 import Stripe from "stripe";
 
 import type { CartProduct } from "@/app/contexts/cart";
-import { db } from "@/lib/prisma";
+import { db } from "@/app/_lib/prisma";
 
 interface CreateStripeCheckoutInput {
   products: CartProduct[];

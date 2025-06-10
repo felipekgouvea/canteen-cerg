@@ -7,13 +7,13 @@ import {
   PageTitle,
 } from "@/app/_components/ui/page-container";
 import { PageDescription } from "@/app/_components/ui/page-container";
-import { authOptions } from "@/lib/auth";
+import { authOptions } from "@/app/_lib/auth";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import AddProductDialog from "./_components/add-product-dialog";
 import { DataTable } from "../_components/data-table";
 import { columns } from "./_data-table/columns";
-import { db } from "@/lib/prisma";
+import { db } from "@/app/_lib/prisma";
 
 const ProductsPage = async () => {
   const session = await getServerSession(authOptions);

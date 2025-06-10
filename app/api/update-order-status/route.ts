@@ -1,6 +1,6 @@
 import { updateOrderStatus } from "@/app/_actions/update-order-status";
 import { NextResponse } from "next/server";
-import { DATABASE_ERROR_MESSAGE } from "@/lib/errors";
+import { DATABASE_ERROR_MESSAGE } from "@/app/_lib/errors";
 
 export async function POST(req: Request) {
   const formData = await req.formData();
