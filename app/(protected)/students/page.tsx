@@ -8,7 +8,7 @@ import {
   PageActions,
 } from "@/app/_components/ui/page-container";
 import { Button } from "@/app/_components/ui/button";
-import { getServerSession } from "next-auth/next";
+import { getServerSession } from "next-auth";
 import type { Session } from "next-auth";
 import { redirect } from "next/navigation";
 import { db } from "@/app/_lib/prisma";
