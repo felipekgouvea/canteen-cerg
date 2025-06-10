@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/app/_components/ui/button";
 import { loadStripe } from "@stripe/stripe-js";
 import {
   Drawer,
@@ -38,6 +37,7 @@ import { getStudentByClass } from "@/app/_actions/get-student-by-class";
 import { createStripeCheckout } from "../products/actions/create-stripe-checkout";
 import { createOrder } from "@/app/_actions/create-order";
 import { toast } from "sonner";
+import { Button } from "@/app/_components/ui/button";
 
 const formSchema = z.object({
   studentId: z.string({ message: "O(a) aluno(a) é obrigatório(a)" }),
