@@ -15,10 +15,7 @@ const ProductList = ({ products }: ProductListProps) => {
           key={product.id}
           href={`restaurant/canteen-cerg/products/${product.id}`}
         >
-          <ProductItem
-            product={product}
-            className="w-[150px] min-w-[150px] space-y-2"
-          />
+          <ProductItem product={product} />
         </Link>
       ))}
     </div>
