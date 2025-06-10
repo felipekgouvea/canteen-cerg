@@ -11,7 +11,7 @@ import BannerPromo from "@/app/_components/banner-promo";
 import Footer from "@/app/_components/footer";
 import Header from "@/app/_components/header";
 import Search from "@/app/_components/search";
-import { getServerSession } from "next-auth/next";
+import { getServerSession } from "next-auth";
 
 const HomePage = async () => {
   const session = (await getServerSession(authOptions)) as Session | null;

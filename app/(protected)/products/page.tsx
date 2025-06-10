@@ -8,7 +8,7 @@ import {
 } from "@/app/_components/ui/page-container";
 import { PageDescription } from "@/app/_components/ui/page-container";
 import { authOptions } from "@/app/_lib/auth";
-import { getServerSession } from "next-auth/next";
+import { getServerSession } from "next-auth";
 import type { Session } from "next-auth";
 import { redirect } from "next/navigation";
 import AddProductDialog from "./_components/add-product-dialog";
